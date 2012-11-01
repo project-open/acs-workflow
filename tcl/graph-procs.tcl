@@ -435,6 +435,22 @@ ad_proc wf_graphviz_dot_exec {
 	    ad_script_abort
 	}
 
+	if {[regexp {Format: "[^"]*" not recognized} $err_msg match]} { 
+	    ad_return_complaint 1 "
+		<b>Error executing 'dot' GraphViz</b>:<br>&nbsp;<br>
+		This error message probably means that your GraphViz
+	        installtion is not complete.<br>
+	        You also need to install 'graphviz-gd'. For example in 
+	        RHEL/CentOS you need to execute as root:<br>
+	        <pre>yum install graphviz-gd</pre>
+		<br>
+		Here is the original error message:<br>
+		<pre>$err_msg</pre><br>
+
+	    "
+	    ad_script_abort
+	}
+
 	ad_return_complaint 1 "
 		<b>Error executing 'dot' GraphViz</b>:<br>&nbsp;<br>
 		We have encountered an error executing the GraphViz external
