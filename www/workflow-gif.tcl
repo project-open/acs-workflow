@@ -33,18 +33,7 @@ if {[string first $tmp_path $tmpfile] != 0} {
     ad_script_abort
 }
 
-
-global tcl_platform
-if {[string match $tcl_platform(platform) "windows"]} {
-
-    set winaoldir $::env(AOLDIR)
-    set unixaoldir [string map {\\ /} ${winaoldir}]
-    set tmpfile ${winaoldir}/${tmpfile}
-
-}
-
 if {![file exists $tmpfile]} { ad_return_complaint 1 "file '$tmpfile' doesn't exist" }
-
 
 if {[file exists $tmpfile]} { 
     ns_returnfile 200 image/gif $tmpfile 
