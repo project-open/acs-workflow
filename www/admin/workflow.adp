@@ -22,7 +22,7 @@
 	  <tr>
 	    <td bgcolor="#cccccc">
 	      <table width="100%" cellspacing="1" cellpadding="2" border="0">
-		<tr valign="middle" bgcolor="#ccccff">
+		<tr valign="middle">
 		  <th>
 		    @workflow.pretty_name@
 		  </th>
@@ -46,7 +46,7 @@
 	  <tr>
 	    <td bgcolor="#cccccc">
 	      <table width="100%" cellspacing="1" cellpadding="2" border="0">
-		<tr valign="middle" bgcolor="#ccccff">
+		<tr valign="middle">
 		  <th>
 		    #acs-workflow.Actions#
 		  </th>
@@ -73,7 +73,7 @@
 	  <tr>
 	    <td bgcolor="#cccccc">
 	      <table width="100%" cellspacing="1" cellpadding="2" border="0">
-		<tr valign="middle" bgcolor="#ccccff">
+		<tr valign="middle">
 		  <th>#acs-workflow.Cases#</th>
 		</tr>
 		<tr bgcolor="#ffffff">
@@ -124,7 +124,7 @@
 	  <tr>
 	    <td bgcolor="#cccccc">
 	      <table width="100%" cellspacing="1" cellpadding="2" border="0">
-		<tr valign="middle" bgcolor="#ccccff">
+		<tr valign="middle">
 		  <th>#acs-workflow.Extreme_Actions#</th>
 		</tr>
 		<tr bgcolor="#ffffff">
@@ -153,7 +153,7 @@
 	  <tr>
 	    <td bgcolor="#cccccc">
 	      <table width="100%" cellspacing="1" cellpadding="2" border="0">
-		<tr valign="middle" bgcolor="#ccccff">
+		<tr valign="middle">
 		  <th>
 		    #acs-workflow.Transitions#
 		  </th>
@@ -180,7 +180,7 @@
 	  <tr>
 	    <td bgcolor="#cccccc">
 	      <table width="100%" cellspacing="1" cellpadding="2" border="0">
-		<tr valign="middle" bgcolor="#ccccff">
+		<tr valign="middle">
 		  <th>
 		    #acs-workflow.Attributes#
 		  </th>
@@ -207,7 +207,7 @@
 	  <tr>
 	    <td bgcolor="#cccccc">
 	      <table width="100%" cellspacing="1" cellpadding="2" border="0">
-		<tr valign="middle" bgcolor="#ccccff">
+		<tr valign="middle">
 		  <th>
 		    #acs-workflow.Roles#
 		  </th>
@@ -239,7 +239,7 @@
 	  <tr>
 	    <td bgcolor="#cccccc">
 	      <table width="100%" cellspacing="1" cellpadding="2" border="0">
-		<tr valign="middle" bgcolor="#ccccff">
+		<tr valign="middle">
 		  <th>
 		    #acs-workflow.Transition_Panels#
 		  </th>
@@ -264,7 +264,7 @@
 	  <tr>
 	    <td bgcolor="#cccccc">
 	      <table width="100%" cellspacing="1" cellpadding="2" border="0">
-		<tr valign="middle" bgcolor="#ccccff">
+		<tr valign="middle">
 		  <th>
 		    #acs-workflow.Static_Assignments#
 		  </th>
@@ -296,7 +296,7 @@
 	  <tr>
 	    <td bgcolor="#cccccc">
 	      <table border="0" cellspacing="1" cellpadding="2" width="100%">
-		<tr bgcolor="#ccccff">
+		<tr>
 		  <th>
 		    #acs-workflow.Process#
 		  </th>
