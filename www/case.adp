@@ -13,7 +13,7 @@
         <tr>
           <td bgcolor="#cccccc">
             <table border="0" cellspacing="1" cellpadding="2" width="100%">
-              <tr bgcolor="#ccccff">
+              <tr bgcolor="#cccccc">
                 <th>
                   #acs-workflow.lt_This_case_is_currentl#
                 </th>
@@ -49,7 +49,7 @@
         <tr>
           <td bgcolor="#cccccc">
             <table border="0" cellspacing="1" cellpadding="2" width="100%">
-              <tr bgcolor="#ccccff">
+              <tr bgcolor="#cccccc">
                 <th>
                   #acs-workflow.Active_Tasks#
                 </th>
@@ -71,7 +71,7 @@
         <tr>
           <td bgcolor="#cccccc">
             <table border="0" cellspacing="1" cellpadding="2" width="100%">
-              <tr bgcolor="#ccccff">
+              <tr bgcolor="#cccccc">
                 <th>
                   #acs-workflow.Manual_Assignments#
                 </th>
@@ -93,7 +93,7 @@
         <tr>
           <td bgcolor="#cccccc">
             <table border="0" cellspacing="1" cellpadding="2" width="100%">
-              <tr bgcolor="#ccccff">
+              <tr bgcolor="#cccccc">
                 <th>
                   #acs-workflow.Deadlines#
                 </th>
@@ -115,7 +115,7 @@
         <tr>
           <td bgcolor="#cccccc">
             <table border="0" cellspacing="1" cellpadding="2" width="100%">
-              <tr bgcolor="#ccccff">
+              <tr bgcolor="#cccccc">
                 <th>
                   #acs-workflow.Past_Tasks#
                 </th>
@@ -137,7 +137,7 @@
         <tr>
           <td bgcolor="#cccccc">
             <table border="0" cellspacing="1" cellpadding="2" width="100%">
-              <tr bgcolor="#ccccff">
+              <tr bgcolor="#cccccc">
                 <th>
                   #acs-workflow.Attributes#
                 </th>
@@ -162,7 +162,7 @@
         <tr>
           <td bgcolor="#cccccc">
             <table border="0" cellspacing="1" cellpadding="2" width="100%">
-              <tr bgcolor="#ccccff">
+              <tr bgcolor="#cccccc">
                 <th>
                   #acs-workflow.Process_State#
                 </th>
