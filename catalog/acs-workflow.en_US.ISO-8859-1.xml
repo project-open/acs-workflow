@@ -35,6 +35,7 @@
   <msg key="and_an">and an</msg>
   <msg key="arcguard_description">arc.guard_description</msg>
   <msg key="As_part_of">Part of</msg>
+  <msg key="Assign_Yourself">assign yourself</msg>
   <msg key="assign_yourself">assign yourself</msg>
   <msg key="Assignees">Assignees</msg>
   <msg key="assignment">assignment</msg>
@@ -321,6 +322,7 @@ working on.</msg>
   <msg key="optional_description">optional description</msg>
   <msg key="Options">Options</msg>
   <msg key="Order">Order</msg>
+  <msg key="Other_Assignees">Other assignees:</msg>
   <msg key="Output_Places">Output Places</msg>
   <msg key="Override_both_panels">Override both panels?</msg>
   <msg key="package-name">package-name</msg>
@@ -340,6 +342,7 @@ working on.</msg>
   <msg key="Produced">Produced</msg>
   <msg key="Question">(Question)</msg>
   <msg key="Question_to_ask">Question to ask</msg>
+  <msg key="Reassign">reassign</msg>
   <msg key="reassign">reassign</msg>
   <msg key="Reassign_Task">Reassign Task</msg>
   <msg key="Remove">Remove</msg>
@@ -365,6 +368,7 @@ working on.</msg>
   <msg key="Static_Assignments">Static Assignments</msg>
   <msg key="Task">Task</msg>
   <msg key="Task_done">Task done</msg>
+  <msg key="Task_Has_Not_Been_Started_Yet">This task has not been started yet.</msg>
   <msg key="task_in_the_loop">task in the loop.</msg>
   <msg key="Task_Name">Task Name</msg>
   <msg key="Task_name">Task name</msg>
@@ -402,6 +406,7 @@ working on.</msg>
   <msg key="Yes_1">/&gt;Yes</msg>
   <msg key="Yes_2">\&gt;Yes</msg>
   <msg key="yesno_question">yes/no question</msg>
+  <msg key="You_Are_The_Only_Person">You are the only person assigned to this task.</msg>
   <msg key="You_can_now">You can now</msg>
   <msg key="You_only_have">You only have</msg>
 </message_catalog>
