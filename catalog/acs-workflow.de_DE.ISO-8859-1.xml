@@ -3,6 +3,7 @@
 
   <msg key="actions">Aktionen</msg>
   <msg key="As_part_of">Part of</msg>
+  <msg key="Assign_Yourself">Aufgabe selbst ausf&amp;uuml;hren</msg>
   <msg key="assignment">Zuweisung</msg>
   <msg key="attributes">Attribute</msg>
   <msg key="delete_arc">Bogen löschen</msg>
@@ -11,7 +12,11 @@
   <msg key="edit">editieren</msg>
   <msg key="Input_Places">Eingangsort</msg>
   <msg key="On_what">auf was?</msg>
+  <msg key="Other_Assignees">Weitere Aufgabentr@auml;ger:</msg>
   <msg key="Output_Places">Ausgangsorte</msg>
+  <msg key="Reassign">Aufgabe anderer Person zuordnen</msg>
   <msg key="Task">Aufgabe</msg>
+  <msg key="Task_Has_Not_Been_Started_Yet">Workflow Aufgabe noch nicht gestarted</msg>
   <msg key="To_Do">To Do</msg>
+  <msg key="You_Are_The_Only_Person">Sie sind alleiniger Aufgabentr&amp;auml;ger </msg>
 </message_catalog>
