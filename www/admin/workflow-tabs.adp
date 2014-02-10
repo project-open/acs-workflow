@@ -13,13 +13,6 @@
     <td width="100%">&nbsp;</td>
   </tr>
   <tr bgcolor="#999999">
-    <td colspan="<%=[expr {${tabs:rowcount}+2}]%>">
-      <table border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td height="5">
-          </td>
-        </tr>
-      </table>
-    </td>
+    <td colspan="<%=[expr {${tabs:rowcount}+2}]%>"></td>
   </tr>
 </table>

@@ -22,7 +22,7 @@
    
           <multiple name="panels">
             <if @panels.rowspan@ gt 0>
-              <tr bgcolor="#666666"><td colspan="5"></td></tr>
+              <tr bgcolor="#FFFFFF"><td colspan="5"></td></tr>
             </if>
             <tr bgcolor="#eeeeee">
               <if @panels.rowspan@ gt 0>
