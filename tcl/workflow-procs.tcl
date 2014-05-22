@@ -1783,6 +1783,40 @@ ad_proc wf_sweep_time_events {} {
 
 
 
+
+
+ad_proc -public wf_new_journal {
+    -case_id:required
+    -action:required
+    -action_pretty:required
+    -message:required
+} {
+    Creates a new journal entry that can be passed to PL/SQL routines
+} {
+    set user_id 0
+    set peer_ip "0.0.0.0"
+    catch { 
+	set user_id [ad_get_user_id]
+	set peer_ip [ad_conn peeraddr]
+    }
+
+    set jid [db_string new_journal "
+	select journal_entry__new (
+		null,
+		:case_id,
+		:action,
+		:action_pretty,
+		now(),
+		:user_id,
+		:peer_ip,
+		:message
+	)
+    "]
+    return $jid
+}
+
+
+
 ad_proc wf_sweep_message_transition_tcl {} {
 
     Sweep those message transitions that have a TCL callback
@@ -1826,21 +1860,6 @@ ad_proc wf_sweep_message_transition_tcl {} {
 			and tr.trigger_type = 'message'
     "
 
-    # Add an entry to the journal
-    set journal_sql "
-		select journal_entry__new (
-			null,
-			:case_id,
-		        'task ' || :task_id || ' tcl enable',
-		        'Enable TCL task' || :task_id || ': ' || :tcl_call,
-			now(),
-			:user_id,
-			:ip_address,
-			:error_msg
-		)
-    "
-
-
     set found_transition_p 1
     while {$found_transition_p} {
 
@@ -1864,7 +1883,7 @@ ad_proc wf_sweep_message_transition_tcl {} {
 		ns_log Notice "wf_sweep_message_transition_tcl: ... error: $errmsg"
 		set error_msg $errmsg
 	    }
-	    db_exec_plsql journal_entry $journal_sql
+	    wf_new_journal -case_id $case_id -action "task $task_id tcl enable" -action_pretty "Enable TCL task $task_id: '$tcl_call'" -message "TCL call '$tcl_call' returned: '$errmsg'"
 	}
 
     }
