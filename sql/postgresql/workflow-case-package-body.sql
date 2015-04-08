@@ -2,7 +2,7 @@
 -- function new
 
 create or replace function workflow_case__new (integer,varchar,varchar,integer,timestamptz,integer,varchar)
-returns integer as '
+returns integer as $$
 declare
 	new__case_id                alias for $1;  -- default null  
 	new__workflow_key           alias for $2;  
@@ -15,8 +15,8 @@ declare
 	v_workflow_case_table       varchar;
 	v_context_key_for_query     varchar;
 begin
-	if new__context_key = '''' or new__context_key is null then
-		v_context_key_for_query := ''default'';
+	if new__context_key = '' or new__context_key is null then
+		v_context_key_for_query := 'default';
 	else
 		v_context_key_for_query := new__context_key;
 	end if;
@@ -35,23 +35,23 @@ begin
 	insert into wf_cases 
 		(case_id, workflow_key, context_key, object_id, state)
 	values 
-		(v_case_id, new__workflow_key, v_context_key_for_query, new__object_id, ''created'');
+		(v_case_id, new__workflow_key, v_context_key_for_query, new__object_id, 'created');
 		
 	/* insert the case into the workflow-specific cases table */
 	select table_name into v_workflow_case_table
 	from   acs_object_types
 	where  object_type = new__workflow_key;
 
-	execute ''insert into '' || v_workflow_case_table || '' (case_id) values ('' || v_case_id || '')'';
+	execute 'insert into ' || v_workflow_case_table || ' (case_id) values (' || v_case_id || ')';
 
 	return v_case_id;
 	   
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure add_manual_assignment
 create or replace function workflow_case__add_manual_assignment (integer,varchar,integer)
-returns integer as '
+returns integer as $$
 declare
 	add_manual_assignment__case_id		alias for $1;  
 	add_manual_assignment__role_key		alias for $2;  
@@ -85,12 +85,12 @@ begin
 	end if;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure remove_manual_assignment
 create or replace function workflow_case__remove_manual_assignment (integer,varchar,integer)
-returns integer as '
+returns integer as $$
 declare
 	remove_manual_assignment__case_id				alias for $1;  
 	remove_manual_assignment__role_key		   alias for $2;  
@@ -110,12 +110,12 @@ begin
 	   and party_id = remove_manual_assignment__party_id;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure clear_manual_assignments
 create or replace function workflow_case__clear_manual_assignments (integer,varchar)
-returns integer as '
+returns integer as $$
 declare
 	clear_manual_assignments__case_id				alias for $1;  
 	clear_manual_assignments__role_key		   alias for $2;  
@@ -132,12 +132,12 @@ begin
 	   and case_id = clear_manual_assignments__case_id
 	   and role_key = clear_manual_assignments__role_key;
 	 return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure start_case
 create or replace function workflow_case__start_case (integer,integer,varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	start_case__case_id				alias for $1;  
 	start_case__creation_user		  alias for $2;  -- default null  
@@ -149,8 +149,8 @@ begin
 	v_journal_id := journal_entry__new(
 		null, 
 		start_case__case_id,
-		''case start'',
-		''#acs-workflow.Case_started#'',
+		'case start',
+		'#acs-workflow.Case_started#',
 		now(),
 		start_case__creation_user,
 		start_case__creation_ip,
@@ -158,12 +158,12 @@ begin
 	);
 
 	update wf_cases 
-	   set state = ''active'' 
+	   set state = 'active' 
 	 where case_id = start_case__case_id;
 
 	PERFORM workflow_case__add_token (
 		start_case__case_id, 
-		''start'',
+		'start',
 		v_journal_id
 	);
 
@@ -174,12 +174,12 @@ begin
 	);
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure delete
 create or replace function workflow_case__delete (integer)
-returns integer as '
+returns integer as $$
 declare
 	delete__case_id				alias for $1;  
 	v_workflow_case_table		  varchar;   
@@ -216,7 +216,7 @@ begin
 	where  c.case_id = delete__case_id
 	and	object_type = c.workflow_key;
 	
-	execute ''delete from '' || v_workflow_case_table || '' where case_id = '' || delete__case_id;
+	execute 'delete from ' || v_workflow_case_table || ' where case_id = ' || delete__case_id;
 
 	/* delete from the generic cases table */
 	delete from wf_cases where case_id = delete__case_id;
@@ -225,12 +225,12 @@ begin
 	PERFORM acs_object__delete(delete__case_id);
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure suspend
 create or replace function workflow_case__suspend (integer,integer,varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	suspend__case_id				alias for $1;  
 	suspend__user_id				alias for $2;  -- default null  
@@ -243,16 +243,16 @@ begin
 	from   wf_cases
 	where  case_id = suspend__case_id;
 
-	if v_state != ''active'' then
-		raise EXCEPTION ''-20000: Only active cases can be suspended'';
+	if v_state != 'active' then
+		raise EXCEPTION '-20000: Only active cases can be suspended';
 	end if;
 	
 	/* Add an entry to the journal */
 	v_journal_id := journal_entry__new(
 		null,
 		suspend__case_id,
-		''case suspend'',
-		''case suspended'',
+		'case suspend',
+		'case suspended',
 		now(),
 		suspend__user_id,
 		suspend__ip_address,
@@ -260,16 +260,16 @@ begin
 	);
 
 	update wf_cases
-	set	state = ''suspended''
+	set	state = 'suspended'
 	where  case_id = suspend__case_id;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure resume
 create or replace function workflow_case__resume (integer,integer,varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	resume__case_id				alias for $1;  
 	resume__user_id				alias for $2;  -- default null  
@@ -282,16 +282,16 @@ begin
 	from   wf_cases
 	where  case_id = resume__case_id;
 
-	if v_state != ''suspended'' and v_state != ''canceled'' then
-		raise EXCEPTION ''-20000: Only suspended or canceled cases can be resumed'';
+	if v_state != 'suspended' and v_state != 'canceled' then
+		raise EXCEPTION '-20000: Only suspended or canceled cases can be resumed';
 	end if;
 
 	/* Add an entry to the journal */
 	v_journal_id := journal_entry__new(
 		null,
 		resume__case_id,
-		''case resume'',
-		''case resumed'',
+		'case resume',
+		'case resumed',
 		now(),
 		resume__user_id,
 		resume__ip_address,
@@ -299,16 +299,16 @@ begin
 	);
 
 	update wf_cases
-	set	state = ''active''
+	set	state = 'active'
 	where  case_id = resume__case_id;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure cancel
 create or replace function workflow_case__cancel (integer,integer,varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	cancel__case_id				alias for $1;  
 	cancel__user_id				alias for $2;  -- default null  
@@ -321,16 +321,16 @@ begin
 	from   wf_cases
 	where  case_id = cancel__case_id;
 
-	if v_state != ''active'' and v_state != ''suspended'' then
-		raise EXCEPTION ''-20000: Only active or suspended cases can be canceled'';
+	if v_state != 'active' and v_state != 'suspended' then
+		raise EXCEPTION '-20000: Only active or suspended cases can be canceled';
 	end if;
 
 	/* Add an entry to the journal */
 	v_journal_id := journal_entry__new(
 		null,
 		cancel__case_id,
-		''case cancel'',
-		''Case canceled'',
+		'case cancel',
+		'Case canceled',
 		now(),
 		cancel__user_id,
 		cancel__ip_address,
@@ -338,16 +338,16 @@ begin
 	);
 
 	update wf_cases
-	set	state = ''canceled''
+	set	state = 'canceled'
 	where  case_id = cancel__case_id;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure fire_message_transition
 create or replace function workflow_case__fire_message_transition (integer)
-returns integer as '
+returns integer as $$
 declare
 	fire_message_transition__task_id			   alias for $1;  
 	v_case_id									  integer;		
@@ -362,16 +362,16 @@ begin
 	and	tr.workflow_key = t.workflow_key
 	and	tr.transition_key = t.transition_key;
 
-	if v_trigger_type != ''message'' then
-		raise EXCEPTION ''-20000: Transition "%" is not message triggered'',  v_transition_name;
+	if v_trigger_type != 'message' then
+		raise EXCEPTION '-20000: Transition "%" is not message triggered',  v_transition_name;
 	end if;
 
 	/* Add an entry to the journal */
 	v_journal_id := journal_entry__new (
 		null,
 		v_case_id,
-		''task '' || fire_message_transition__task_id || '' fire'',
-		v_transition_name || '' fired'',
+		'task ' || fire_message_transition__task_id || ' fire',
+		v_transition_name || ' fired',
 		now(),
 		null,
 		null,
@@ -389,7 +389,7 @@ begin
 	);
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 	  /*
@@ -398,7 +398,7 @@ end;' language 'plpgsql';
 	   */
 -- function begin_task_action
 create or replace function workflow_case__begin_task_action (integer,varchar,varchar,integer,varchar)
-returns integer as '
+returns integer as $$
 declare
 	begin_task_action__task_id				alias for $1;  
 	begin_task_action__action				 alias for $2;  
@@ -415,9 +415,9 @@ begin
 	from   wf_tasks
 	where  task_id = begin_task_action__task_id;
 
-	if begin_task_action__action = ''start'' then
-		if v_state != ''enabled'' then
-		raise EXCEPTION ''-20000: Task is in state "%", but it must be in state "enabled" to be started.'', v_state;
+	if begin_task_action__action = 'start' then
+		if v_state != 'enabled' then
+		raise EXCEPTION '-20000: Task is in state "%", but it must be in state "enabled" to be started.', v_state;
 		end if;
 	
 		select case when count(*) = 0 then 0 else 1 end into v_num_rows
@@ -426,22 +426,22 @@ begin
 		and    user_id = begin_task_action__user_id;
 		
 		if v_num_rows = 0 then
-		raise EXCEPTION ''-20000: You are not assigned to this task.'';
+		raise EXCEPTION '-20000: You are not assigned to this task.';
 		end if;
-	else if begin_task_action__action = ''finish'' or begin_task_action__action = ''cancel'' then
+	else if begin_task_action__action = 'finish' or begin_task_action__action = 'cancel' then
 
-		if v_state = ''started'' then
+		if v_state = 'started' then
 		/* Is this user the holding user? */
 		select case when count(*) = 0 then 0 else 1 end into v_num_rows
 		from   wf_tasks
 		where  task_id = begin_task_action__task_id
 		and    holding_user = begin_task_action__user_id;
 		if v_num_rows = 0 then  
-		    raise EXCEPTION ''-20000: You are not the user currently working on this task.'';
+		    raise EXCEPTION '-20000: You are not the user currently working on this task.';
 		end if;
-		else if v_state = ''enabled'' then
-		if begin_task_action__action = ''cancel'' then
-		    raise EXCEPTION ''-20000: You can only cancel a task in state "started", but this task is in state "%"'', v_state;
+		else if v_state = 'enabled' then
+		if begin_task_action__action = 'cancel' then
+		    raise EXCEPTION '-20000: You can only cancel a task in state "started", but this task is in state "%"', v_state;
 		end if;
 
 		/* Is this user assigned to this task? */
@@ -450,7 +450,7 @@ begin
 		where  task_id = begin_task_action__task_id
 		and    user_id = begin_task_action__user_id;
 		if v_num_rows = 0 then  
-		    raise EXCEPTION ''-20000: You are not assigned to this task.'';
+		    raise EXCEPTION '-20000: You are not assigned to this task.';
 		end if;
 
 		/* This task is finished without an explicit start.
@@ -459,10 +459,10 @@ begin
 		set    holding_user = begin_task_action__user_id 
 		where  task_id = begin_task_action__task_id;
 		else
-		raise EXCEPTION ''-20000: Task is in state "%", but it must be in state "enabled" or "started" to be finished'', v_state;
+		raise EXCEPTION '-20000: Task is in state "%", but it must be in state "enabled" or "started" to be finished', v_state;
 		end if; end if;
 
-	else if begin_task_action__action = ''comment'' then
+	else if begin_task_action__action = 'comment' then
 		-- We currently allow anyone to comment on a task
 		-- (need this line because PL/SQL does not like empty if blocks)
 		v_num_rows := 0;
@@ -480,8 +480,8 @@ begin
 	v_journal_id := journal_entry__new (
 		null,
 		v_case_id,
-		''task '' || begin_task_action__task_id || '' '' || begin_task_action__action,
-		v_transition_name || '' '' || begin_task_action__action,
+		'task ' || begin_task_action__task_id || ' ' || begin_task_action__action,
+		v_transition_name || ' ' || begin_task_action__action,
 		now(),
 		begin_task_action__user_id,
 		begin_task_action__action_ip,
@@ -490,12 +490,12 @@ begin
 
 	return v_journal_id;
 	   
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure end_task_action
 create or replace function workflow_case__end_task_action (integer,varchar,integer)
-returns integer as '
+returns integer as $$
 declare
 	end_task_action__journal_id             alias for $1;  
 	end_task_action__action                 alias for $2;  
@@ -508,30 +508,30 @@ begin
 
 	/* Update the workflow state */
 
-	if end_task_action__action = ''start'' then
+	if end_task_action__action = 'start' then
 		PERFORM workflow_case__start_task(end_task_action__task_id, 
 		                              v_user_id, 
 		                              end_task_action__journal_id
 		    );
-	else if end_task_action__action = ''finish'' then
+	else if end_task_action__action = 'finish' then
 		PERFORM workflow_case__finish_task(end_task_action__task_id, 
 		                               end_task_action__journal_id
 		    );
-	else if end_task_action__action = ''cancel'' then
+	else if end_task_action__action = 'cancel' then
 		PERFORM workflow_case__cancel_task(end_task_action__task_id, 
 		                               end_task_action__journal_id
 		    );
-	else if end_task_action__action != ''comment'' then
-		raise EXCEPTION ''-20000: Unknown action "%"'', end_task_action__action;
+	else if end_task_action__action != 'comment' then
+		raise EXCEPTION '-20000: Unknown action "%"', end_task_action__action;
 	end if; end if; end if; end if;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- function task_action
 create or replace function workflow_case__task_action (integer,varchar,varchar,integer,varchar)
-returns integer as '
+returns integer as $$
 declare
 	task_action__task_id                alias for $1;  
 	task_action__action                 alias for $2;  
@@ -556,12 +556,12 @@ begin
 
 	return v_journal_id;        
 	   
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure set_attribute_value
 create or replace function workflow_case__set_attribute_value (integer,varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	set_attribute_value__journal_id             alias for $1;  
 	set_attribute_value__attribute_name         alias for $2;  
@@ -593,12 +593,12 @@ begin
 		 set_attribute_value__value);
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- function get_attribute_value
 create or replace function workflow_case__get_attribute_value (integer,varchar)
-returns varchar as '
+returns varchar as $$
 declare
 	get_attribute_value__case_id                alias for $1;  
 	get_attribute_value__attribute_name         alias for $2;  
@@ -608,12 +608,12 @@ begin
 		get_attribute_value__attribute_name
 	);
 	   
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure add_task_assignment
 create or replace function workflow_case__add_task_assignment (integer,integer,boolean)
-returns integer as '
+returns integer as $$
 declare
 	add_task_assignment__task_id		alias for $1;  
 	add_task_assignment__party_id		alias for $2;  
@@ -645,7 +645,7 @@ begin
 		and c.case_id = ta.case_id;
 
 	-- make the same assignment as a manual assignment
-	IF add_task_assignment__permanent_p = ''t'' and v_role_key is not null THEN
+	IF add_task_assignment__permanent_p = 't' and v_role_key is not null THEN
 		/* We do this up-front, because 
 		 * even though the user already had a task assignment, 
 		 * he might not have a case assignment.
@@ -702,10 +702,10 @@ begin
 		)
 	LOOP
 		PERFORM workflow_case__notify_assignee (
-		add_task_assignment__task_id,
-		v_assigned_user.user_id,
-		v_notification_callback,
-		v_notification_custom_arg
+			add_task_assignment__task_id,
+			v_assigned_user.user_id,
+			v_notification_callback,
+			v_notification_custom_arg
 		);
 	end loop;
 
@@ -720,12 +720,12 @@ begin
 	);
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure remove_task_assignment
 create or replace function workflow_case__remove_task_assignment (integer,integer,boolean)
-returns integer as '
+returns integer as $$
 declare
 	remove_task_assignment__task_id                alias for $1;  
 	remove_task_assignment__party_id               alias for $2;  
@@ -750,7 +750,7 @@ begin
 
 	-- make the same assignment as a manual assignment
 
-	if remove_task_assignment__permanent_p = ''t'' then
+	if remove_task_assignment__permanent_p = 't' then
 		perform workflow_case__remove_manual_assignment (
 		v_case_id,
 		v_role_key,
@@ -793,12 +793,12 @@ begin
 	end if;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure clear_task_assignments
 create or replace function workflow_case__clear_task_assignments (integer,boolean)
-returns integer as '
+returns integer as $$
 declare
 	clear_task_assignments__task_id                alias for $1;  
 	clear_task_assignments__permanent_p		 alias for $2;
@@ -822,7 +822,7 @@ begin
 
 	-- make the unassignment stick as a manual assignment
 
-	if clear_task_assignments__permanent_p = ''t'' then
+	if clear_task_assignments__permanent_p = 't' then
 		perform workflow_case__clear_manual_assignments (
 		v_case_id,
 		v_role_key
@@ -852,12 +852,12 @@ begin
 	);
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure set_case_deadline 
 create or replace function workflow_case__set_case_deadline (integer,varchar,timestamptz)
-returns integer as '
+returns integer as $$
 declare
 	set_case_deadline__case_id		alias for $1;
 	set_case_deadline__transition_key	alias for $2;
@@ -891,12 +891,12 @@ begin
 		);
 	end if;
 	return 0;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure remove_case_deadline
 create or replace function workflow_case__remove_case_deadline (integer,varchar)
-returns integer as '
+returns integer as $$
 declare
 	remove_case_deadline__case_id		alias for $1;
 	remove_case_deadline__transition_key	alias for $2;
@@ -908,7 +908,7 @@ begin
 	);
 
 	return 0;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 
@@ -920,7 +920,7 @@ end;' language 'plpgsql';
 
 -- function evaluate_guard
 create or replace function workflow_case__evaluate_guard (varchar,varchar,integer,varchar,varchar,varchar,varchar)
-returns boolean as '
+returns boolean as $$
 declare
 	evaluate_guard__callback               alias for $1;  
 	evaluate_guard__custom_arg             alias for $2;  
@@ -931,25 +931,25 @@ declare
 	evaluate_guard__direction              alias for $7;  
 	v_guard_happy_p                        boolean;
 	v_rec                                  record;
-	v_str                                  text default '''';
+	v_str                                  text default '';
 begin
-	if evaluate_guard__callback = '''' or 
+	if evaluate_guard__callback = '' or 
 	   evaluate_guard__callback is null then
 		-- null guard evaluates to true
-		return ''t'';
+		return 't';
 	else
-		if evaluate_guard__callback = ''#'' then
-		return ''f'';
+		if evaluate_guard__callback = '#' then
+		return 'f';
 		else
-		v_str := ''select '' || evaluate_guard__callback
-		|| ''('' || 
-		evaluate_guard__case_id || '','' || 
-		quote_literal(evaluate_guard__workflow_key) || '','' || 
-		quote_literal(evaluate_guard__transition_key) || '','' || 
-		quote_literal(evaluate_guard__place_key) || '','' || 
-		quote_literal(evaluate_guard__direction) || '','' || 
-		coalesce(quote_literal(evaluate_guard__custom_arg),''null'') || '') as guard_happy_p'';
-		raise notice ''str = %'', v_str;
+		v_str := 'select ' || evaluate_guard__callback
+		|| '(' || 
+		evaluate_guard__case_id || ',' || 
+		quote_literal(evaluate_guard__workflow_key) || ',' || 
+		quote_literal(evaluate_guard__transition_key) || ',' || 
+		quote_literal(evaluate_guard__place_key) || ',' || 
+		quote_literal(evaluate_guard__direction) || ',' || 
+		coalesce(quote_literal(evaluate_guard__custom_arg),'null') || ') as guard_happy_p';
+		raise notice 'str = %', v_str;
 		for v_rec in 
 		    execute v_str
 		LOOP
@@ -960,12 +960,12 @@ begin
 
 	return null;
 	   
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure execute_transition_callback
 create or replace function workflow_case__execute_transition_callback (varchar,varchar,integer,varchar)
-returns integer as '
+returns integer as $$
 declare
 	execute_transition_callback__callback               alias for $1;  
 	execute_transition_callback__custom_arg             alias for $2;  
@@ -973,21 +973,21 @@ declare
 	execute_transition_callback__transition_key         alias for $4;  
 	v_str                                               text;
 begin
-	if execute_transition_callback__callback != '''' and execute_transition_callback__callback is not null then 
-		v_str := ''select '' || execute_transition_callback__callback
-		|| ''('' || execute_transition_callback__case_id || '','' || 
-		quote_literal(execute_transition_callback__transition_key) || '','' || 
-		coalesce(quote_literal(execute_transition_callback__custom_arg),''null'') || '')'';
+	if execute_transition_callback__callback != '' and execute_transition_callback__callback is not null then 
+		v_str := 'select ' || execute_transition_callback__callback
+		|| '(' || execute_transition_callback__case_id || ',' || 
+		quote_literal(execute_transition_callback__transition_key) || ',' || 
+		coalesce(quote_literal(execute_transition_callback__custom_arg),'null') || ')';
 		execute v_str;
 	end if;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- function execute_time_callback
 create or replace function workflow_case__execute_time_callback (varchar,varchar,integer,varchar)
-returns timestamptz as '
+returns timestamptz as $$
 declare
 	execute_time_callback__callback               alias for $1;  
 	execute_time_callback__custom_arg             alias for $2;  
@@ -997,28 +997,28 @@ declare
 	v_str                                         text;
 	v_result					timestamptz;
 begin
-	if execute_time_callback__callback = '''' or execute_time_callback__callback is null then
+	if execute_time_callback__callback = '' or execute_time_callback__callback is null then
 		return null;
 	end if;
  
-	v_str := ''select '' || execute_time_callback__callback || ''('' || 
-		 execute_time_callback__case_id || '','' || 
-		 quote_literal(execute_time_callback__transition_key) || '','' || 
-		 coalesce(quote_literal(execute_time_callback__custom_arg),''null'') || '') as trigger_time'';
+	v_str := 'select ' || execute_time_callback__callback || '(' || 
+		 execute_time_callback__case_id || ',' || 
+		 quote_literal(execute_time_callback__transition_key) || ',' || 
+		 coalesce(quote_literal(execute_time_callback__custom_arg),'null') || ') as trigger_time';
 
 	for v_rec in execute v_str
 	LOOP
 		v_result := v_rec.trigger_time;
 	end LOOP;
 
-	RAISE NOTICE ''workflow_case__execute_time_callback: res=%, sql=%'', v_result, v_str;
+	RAISE NOTICE 'workflow_case__execute_time_callback: res=%, sql=%', v_result, v_str;
 	return v_result;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- function get_task_deadline
 create or replace function workflow_case__get_task_deadline (varchar,varchar,varchar,integer,varchar)
-returns timestamptz as '
+returns timestamptz as $$
 declare
 	get_task_deadline__callback               alias for $1;  
 	get_task_deadline__custom_arg             alias for $2;  
@@ -1042,19 +1042,19 @@ begin
 		and   transition_key = get_task_deadline__transition_key;
 
 	if NOT FOUND then
-		if get_task_deadline__callback != '''' and get_task_deadline__callback is not null then
+		if get_task_deadline__callback != '' and get_task_deadline__callback is not null then
 		/* callback */
-		v_str := ''select '' || get_task_deadline__callback || ''('' || 
-		         get_task_deadline__case_id || '','' || 
-		         quote_literal(get_task_deadline__transition_key) || '','' || 
-		         coalesce(quote_literal(get_task_deadline__custom_arg),''null'') || '') as deadline'';
+		v_str := 'select ' || get_task_deadline__callback || '(' || 
+		         get_task_deadline__case_id || ',' || 
+		         quote_literal(get_task_deadline__transition_key) || ',' || 
+		         coalesce(quote_literal(get_task_deadline__custom_arg),'null') || ') as deadline';
 
 		for v_rec in execute v_str
 		LOOP
 		    v_deadline := v_rec.deadline;
 		    exit;
 		end LOOP;
-		else if get_task_deadline__attribute_name != '''' and get_task_deadline__attribute_name is not null then
+		else if get_task_deadline__attribute_name != '' and get_task_deadline__attribute_name is not null then
 		/* attribute */
 		v_deadline := acs_object__get_attribute (
 		    get_task_deadline__case_id,
@@ -1067,12 +1067,12 @@ begin
 	
 	return v_deadline;
 	   
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- function execute_hold_timeout_callback
 create or replace function workflow_case__execute_hold_timeout_callback (varchar,varchar,integer,varchar)
-returns timestamptz as '
+returns timestamptz as $$
 declare
 	execute_hold_timeout_callback__callback               alias for $1;  
 	execute_hold_timeout_callback__custom_arg             alias for $2;  
@@ -1082,16 +1082,16 @@ declare
 	v_rec                                                 record;
 	v_str                                                 text;
 begin
-	if execute_hold_timeout_callback__callback = '''' or execute_hold_timeout_callback__callback is null then
+	if execute_hold_timeout_callback__callback = '' or execute_hold_timeout_callback__callback is null then
 		return null;
 	end if;
  
-	v_str := ''select '' || execute_hold_timeout_callback__callback 
-		  || ''('' ||
-		  execute_hold_timeout_callback__case_id || '','' ||
+	v_str := 'select ' || execute_hold_timeout_callback__callback 
+		  || '(' ||
+		  execute_hold_timeout_callback__case_id || ',' ||
 		  quote_literal(execute_hold_timeout_callback__transition_key) || 
-		  '','' ||
-		  coalesce(quote_literal(execute_hold_timeout_callback__custom_arg),''null'') || '') as hold_timeout'';
+		  ',' ||
+		  coalesce(quote_literal(execute_hold_timeout_callback__custom_arg),'null') || ') as hold_timeout';
 
 	for v_rec in execute v_str
 	LOOP
@@ -1100,34 +1100,34 @@ begin
 
 	return null;
 	   
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure execute_unassigned_callback
 create or replace function workflow_case__execute_unassigned_callback (varchar,integer,varchar)
-returns integer as '
+returns integer as $$
 declare
 	callback               alias for $1;  
 	task_id                alias for $2;  
 	custom_arg             alias for $3; 
 	v_str                  text; 
 begin
-	if callback != '''' and callback is not null then
-		v_str := ''select '' || callback
-		     || ''('' || task_id || '','' || 
-		     coalesce(quote_literal(custom_arg),''null'') 
-		     || '')'';
+	if callback != '' and callback is not null then
+		v_str := 'select ' || callback
+		     || '(' || task_id || ',' || 
+		     coalesce(quote_literal(custom_arg),'null') 
+		     || ')';
 
 		execute v_str;
 	end if;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure set_task_assignments
 create or replace function workflow_case__set_task_assignments (integer,varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	set_task_assignments__task_id                alias for $1;  
 	set_task_assignments__callback               alias for $2;  
@@ -1148,7 +1148,7 @@ begin
 	 *  reassignment of tasks difficult.)
 	 */
 
-	v_done_p := ''f'';
+	v_done_p := 'f';
 	for case_assignment_rec in  select party_id
 		  from wf_case_assignments ca, wf_tasks t, wf_transitions tr
 		 where t.task_id = set_task_assignments__task_id
@@ -1157,19 +1157,19 @@ begin
 		   and tr.workflow_key = t.workflow_key
 		   and tr.transition_key = t.transition_key
 	LOOP
-		v_done_p := ''t'';
+		v_done_p := 't';
 		PERFORM workflow_case__add_task_assignment (
 		set_task_assignments__task_id,
 		case_assignment_rec.party_id,
-		''f''
+		'f'
 		);
 	end loop;
-	if v_done_p != ''t'' then
+	if v_done_p != 't' then
 
-		if set_task_assignments__callback != '''' and set_task_assignments__callback is not null then
-		v_str := ''select ''|| set_task_assignments__callback || ''('' || 
-		set_task_assignments__task_id || '','' || 
-		coalesce(quote_literal(set_task_assignments__custom_arg),''null'') || '')'';
+		if set_task_assignments__callback != '' and set_task_assignments__callback is not null then
+		v_str := 'select '|| set_task_assignments__callback || '(' || 
+		set_task_assignments__task_id || ',' || 
+		coalesce(quote_literal(set_task_assignments__custom_arg),'null') || ')';
 		execute v_str;
 		else
 		for context_assignment_rec in  
@@ -1186,19 +1186,19 @@ begin
 		    PERFORM workflow_case__add_task_assignment (
 		        set_task_assignments__task_id,
 		        context_assignment_rec.party_id,
-			''f''
+			'f'
 		    );
 		end LOOP;
 		end if;
 	end if;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure add_token
 create or replace function workflow_case__add_token (integer,varchar,integer)
-returns integer as '
+returns integer as $$
 declare
 	add_token__case_id                alias for $1;  
 	add_token__place_key              alias for $2;  
@@ -1216,15 +1216,15 @@ begin
 		(token_id, case_id, workflow_key, place_key, state, produced_journal_id)
 	values 
 		(v_token_id, add_token__case_id, v_workflow_key, add_token__place_key, 
-		''free'', add_token__journal_id);
+		'free', add_token__journal_id);
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure lock_token
 create or replace function workflow_case__lock_token (integer,varchar,integer,integer)
-returns integer as '
+returns integer as $$
 declare
 	lock_token__case_id                alias for $1;  
 	lock_token__place_key              alias for $2;  
@@ -1233,17 +1233,17 @@ declare
 begin
 	-- FIXME: rownum 
 --        update wf_tokens
---        set    state = ''locked'',
+--        set    state = 'locked',
 --               locked_task_id = lock_token__task_id,
 --               locked_date = now(),
 --               locked_journal_id = lock_token__journal_id
 --        where  case_id = lock_token__case_id
 --        and    place_key = lock_token__place_key
---        and    state = ''free''
+--        and    state = 'free'
 --        and    rownum = 1;
 
 	update wf_tokens
-	set    state = ''locked'',
+	set    state = 'locked',
 		   locked_task_id = lock_token__task_id,
 		   locked_date = now(),
 		   locked_journal_id = lock_token__journal_id
@@ -1251,16 +1251,16 @@ begin
 		             from wf_tokens 
 		            where case_id = lock_token__case_id
 		              and place_key = lock_token__place_key
-		              and state = ''free''
+		              and state = 'free'
 		            limit 1);
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure release_token
 create or replace function workflow_case__release_token (integer,integer)
-returns integer as '
+returns integer as $$
 declare
 	release_token__task_id                alias for $1;  
 	release_token__journal_id             alias for $2;  
@@ -1272,7 +1272,7 @@ begin
 		   case_id, 
 		   place_key
 		from   wf_tokens
-		where  state = ''locked''
+		where  state = 'locked'
 		and    locked_task_id = release_token__task_id
 	LOOP
 		PERFORM workflow_case__add_token (
@@ -1284,19 +1284,19 @@ begin
 
 	/* Mark the released ones canceled */
 	update wf_tokens
-	set    state = ''canceled'',
+	set    state = 'canceled',
 		   canceled_date = now(),
 		   canceled_journal_id = release_token__journal_id
-	where  state = ''locked''
+	where  state = 'locked'
 	and    locked_task_id = release_token__task_id;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure consume_token
 create or replace function workflow_case__consume_token (integer,varchar,integer,integer)
-returns integer as '
+returns integer as $$
 declare
 	consume_token__case_id                alias for $1;  
 	consume_token__place_key              alias for $2;  
@@ -1305,57 +1305,57 @@ declare
 begin
 	if consume_token__task_id is null then
 		update wf_tokens
-		set    state = ''consumed'',
+		set    state = 'consumed',
 		   consumed_date = now(),
 		   consumed_journal_id = consume_token__journal_id
 		where  token_id = (select token_id 
 		                 from wf_tokens 
 		                where case_id = consume_token__case_id
 		                  and place_key = consume_token__place_key
-		                  and state = ''free''
+		                  and state = 'free'
 		                limit 1);
 	else
 		update wf_tokens
-		set    state = ''consumed'',
+		set    state = 'consumed',
 		   consumed_date = now(),
 		   consumed_journal_id = consume_token__journal_id
 		where  case_id = consume_token__case_id
 		and    place_key = consume_token__place_key
-		and    state = ''locked''
+		and    state = 'locked'
 		and    locked_task_id = consume_token__task_id;
 	end if;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure sweep_automatic_transitions
 create or replace function workflow_case__sweep_automatic_transitions (integer,integer)
-returns integer as '
+returns integer as $$
 declare
 	sweep_automatic_transitions__case_id                alias for $1;  
 	sweep_automatic_transitions__journal_id             alias for $2;  
-	v_done_p                                            boolean:=''f'';       
+	v_done_p                                            boolean:='f';       
 	v_finished_p                                        boolean;       
 	task_rec                                            record;
 begin
-	RAISE NOTICE ''sweep_automatic_transitions(%,%)'', 
+	RAISE NOTICE 'sweep_automatic_transitions(%,%)', 
 		sweep_automatic_transitions__case_id, sweep_automatic_transitions__journal_id;
 	PERFORM workflow_case__enable_transitions(sweep_automatic_transitions__case_id);
-	while v_done_p != ''t'' loop
-		v_done_p := ''t'';
+	while v_done_p != 't' loop
+		v_done_p := 't';
 		v_finished_p := workflow_case__finished_p (
 		sweep_automatic_transitions__case_id,
 		sweep_automatic_transitions__journal_id);
 
-		if v_finished_p = ''f'' then
+		if v_finished_p = 'f' then
 		for task_rec in 
 		    select task_id
 		    from   wf_tasks ta, wf_transitions tr
 		    where  tr.workflow_key = ta.workflow_key
 		    and    tr.transition_key = ta.transition_key
-		    and    tr.trigger_type = ''automatic''
-		    and    ta.state = ''enabled''
+		    and    tr.trigger_type = 'automatic'
+		    and    ta.state = 'enabled'
 		    and    ta.case_id = sweep_automatic_transitions__case_id
 		LOOP
 		    PERFORM workflow_case__fire_transition_internal (
@@ -1363,7 +1363,7 @@ begin
 		        sweep_automatic_transitions__journal_id
 		    );
 
-		    v_done_p := ''f'';
+		    v_done_p := 'f';
 		end loop;
 		PERFORM workflow_case__enable_transitions(sweep_automatic_transitions__case_id);
 		end if;
@@ -1371,12 +1371,12 @@ begin
 	end loop;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- function finished_p
 create or replace function workflow_case__finished_p (integer,integer)
-returns boolean as '
+returns boolean as $$
 declare
 	finished_p__case_id                alias for $1;  
 	finished_p__journal_id             alias for $2;  
@@ -1389,17 +1389,17 @@ begin
 	from   wf_cases 
 	where  case_id = finished_p__case_id;
 
-	if v_case_state = ''finished'' then
-		return ''t'';
+	if v_case_state = 'finished' then
+		return 't';
 	else
 		/* Let us see if the case is actually finished, but just not marked so */
 		select case when count(*) = 0 then 0 else 1 end into v_num_rows
 		from   wf_tokens
 		where  case_id = finished_p__case_id
-		and    place_key = ''end'';
+		and    place_key = 'end';
 	  
 		if v_num_rows = 0 then 
-		return ''f'';
+		return 'f';
 		else
 		/* There is a token in the end place.
 		 * Count the total integer of tokens to make sure the wf is well-constructed.
@@ -1411,50 +1411,50 @@ begin
 		        end into v_num_rows
 		from   wf_tokens
 		where  case_id = finished_p__case_id
-		and    state in (''free'', ''locked'');
+		and    state in ('free', 'locked');
 	  
 		if v_num_rows > 1 then 
-		    raise EXCEPTION ''-20000: The workflow net is misconstructed: Some parallel executions have not finished.'';
+		    raise EXCEPTION '-20000: The workflow net is misconstructed: Some parallel executions have not finished.';
 		end if;
 	  
 		/* Consume that token */
 		select token_id into v_token_id
 		from   wf_tokens
 		where  case_id = finished_p__case_id
-		and    state in (''free'', ''locked'');
+		and    state in ('free', 'locked');
 
 		PERFORM workflow_case__consume_token (
 		    finished_p__case_id,
-		    ''end'',
+		    'end',
 		    finished_p__journal_id,
 		    null
 		);
 
 		update wf_cases 
-		set    state = ''finished'' 
+		set    state = 'finished' 
 		where  case_id = finished_p__case_id;
 
 		/* Add an extra entry to the journal */
 		v_journal_id := journal_entry__new (
 		    null,
 		    finished_p__case_id,
-		    ''case finish'',
-		    ''Case finished'',
+		    'case finish',
+		    'Case finished',
 		    now(),
 		    null,
 		    null,
 		    null
 		);
 
-		return ''t'';
+		return 't';
 		end if;
 	end if;
 	   
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 -- The next two functions are called periodically by a scheduled Tcl script.
 
-create or replace function workflow_case__sweep_timed_transitions () returns integer as '
+create or replace function workflow_case__sweep_timed_transitions () returns integer as $$
 declare
 	v_journal_id    integer;
 	trans_rec       record;
@@ -1463,7 +1463,7 @@ begin
 		select	t.task_id, t.case_id, tr.transition_name
 		from	wf_tasks t, wf_transitions tr
 		where	trigger_time <= now()
-			and    state = ''enabled''
+			and    state = 'enabled'
 			and    tr.workflow_key = t.workflow_key
 			and    tr.transition_key = t.transition_key 
 	LOOP
@@ -1471,12 +1471,12 @@ begin
 		v_journal_id := journal_entry__new (
 			null,
 			trans_rec.case_id, 
-			''task '' || trans_rec.task_id || '' fire time'',
-			trans_rec.transition_name || '' automatically finished'',
+			'task ' || trans_rec.task_id || ' fire time',
+			trans_rec.transition_name || ' automatically finished',
 			now(),
 			null,
 			null,
-			''Timed transition fired.''
+			'Timed transition fired.'
 		);
 	
 		/* Fire the transition */
@@ -1493,10 +1493,10 @@ begin
 	end loop;
 
 	return 0;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
-create or replace function workflow_case__sweep_hold_timeout () returns integer as '
+create or replace function workflow_case__sweep_hold_timeout () returns integer as $$
 declare
 	v_journal_id    integer;
 	task_rec        record;
@@ -1504,7 +1504,7 @@ begin
 	for task_rec in select t.task_id, t.case_id, tr.transition_name
 		from   wf_tasks t, wf_transitions tr
 		where  hold_timeout <= now()
-		and    state = ''started''
+		and    state = 'started'
 		and    tr.workflow_key = t.workflow_key
 		and    tr.transition_key = t.transition_key
 	LOOP
@@ -1513,12 +1513,12 @@ begin
 		v_journal_id := journal_entry__new (
 			null,
 			task_rec.case_id, 
-			''task '' || task_rec.task_id || '' cancel timeout'',
-			task_rec.transition_name || '' timed out'', 
+			'task ' || task_rec.task_id || ' cancel timeout',
+			task_rec.transition_name || ' timed out', 
 			now(),
 			null,
 			null,
-			''The user''''s hold on the task timed out and the task was automatically canceled''
+			'The hold of the user on the task timed out and the task was automatically canceled'
 		);
 
 		/* Cancel the task */
@@ -1530,13 +1530,72 @@ begin
 	end loop;
 
 	return 0;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
+
+
+
+-- Lookup localized message for workflow notification
+create or replace function workflow_case__notify_l10n_lookup (varchar,varchar,varchar,varchar,varchar,integer)
+returns varchar as $$
+declare
+	p_message_prefix		alias for $1;
+	p_notification_type		alias for $2;
+	p_workflow_key			alias for $3;
+	p_transition_key		alias for $4;
+	p_locale			alias for $5;
+	p_include_l10n_link		alias for $6;
+
+	v_key				varchar;
+	v_message			varchar;
+	v_system_url			varchar;
+	v_url				varchar;
+begin
+	select apm__get_value((select package_id from apm_packages where package_key = 'acs-kernel'), 'SystemURL') into v_system_url;
+
+	-- ------------------------------------------------------------
+	-- Try with specific translation first
+	v_key := p_message_prefix || '_' || p_workflow_key || '_' || p_transition_key || '_' || p_notification_type;
+	v_message := acs_lang_lookup_message(p_locale, 'acs-workflow', v_key);
+
+	-- Fallback to more generic translation
+	IF substring(v_message from 1 for 7) = 'MISSING' THEN
+		v_key := p_message_prefix || '_' || p_workflow_key || '_' || p_transition_key;
+		v_message := acs_lang_lookup_message(p_locale, 'acs-workflow', v_key);
+	END IF;
+	
+	-- Fallback to more generic translation
+	IF substring(v_message from 1 for 7) = 'MISSING' THEN
+		v_key := p_message_prefix || '_' || p_transition_key;
+		v_message := acs_lang_lookup_message(p_locale, 'acs-workflow', v_key);
+	END IF;
+	
+	-- Fallback to more generic translation
+	IF substring(v_message from 1 for 7) = 'MISSING' THEN
+		v_key := p_message_prefix || '_' || p_transition_key;
+		v_message := acs_lang_lookup_message(p_locale, 'acs-workflow', v_key);
+	END IF;
+
+	-- Still no translation - create a message
+	IF p_include_l10n_link > 0 THEN
+		IF substring(v_message from 1 for 7) = 'MISSING' THEN
+			v_key := p_message_prefix || '_' || p_workflow_key || '_' || p_transition_key || '_' || p_notification_type;
+			v_url = v_system_url || '/acs-lang/admin/localized-message-new?package_key=acs-workflow&locale='||p_locale||'&message_key='||v_key;
+			v_message := E'Missing translation for message key\n\n'
+				|| E'Please visit the URL below with system administrator rights and create a translation\n'
+				|| v_url || E'\n\n'
+				|| E'Please also create a translation for the message subject by replacing the "Body" in the URL above with "Subject".' 
+				|| E'\n\nSystem Administrator';
+		END IF;
+	END IF;
+	
+	return v_message;
+end;$$ language 'plpgsql';
 
 
 
 -- Compatibility proc - to maintain API
 create or replace function workflow_case__notify_assignee (integer,integer,varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	notify_assignee__task_id                alias for $1;  
 	notify_assignee__user_id                alias for $2;  
@@ -1544,30 +1603,32 @@ declare
 	notify_assignee__custom_arg             alias for $4;  
 begin
 	return workflow_case__notify_assignee($1,$2,$3,$4,null);
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
--- procedure notify_assignee
+-- Send out notification emails to assignees of workflow transitions
 create or replace function workflow_case__notify_assignee (integer,integer,varchar,varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
-	notify_assignee__task_id                alias for $1;
-	notify_assignee__user_id                alias for $2;
-	notify_assignee__callback               alias for $3;
-	notify_assignee__custom_arg             alias for $4;
-	notify_assignee__notification_type      alias for $5;
+	notify_assignee__task_id		alias for $1;
+	notify_assignee__user_id		alias for $2;
+	notify_assignee__callback		alias for $3;
+	notify_assignee__custom_arg		alias for $4;
+	notify_assignee__notification_type	alias for $5;
 
-	v_deadline_pretty                       varchar;  
-	v_object_name                           text; 
-	v_transition_key                        wf_transitions.transition_key%TYPE;
-	v_transition_name                       wf_transitions.transition_name%TYPE;
-	v_party_from                            parties.party_id%TYPE;
-	v_party_to                              parties.party_id%TYPE;
-	v_subject                               text; 
-	v_body                                  text; 
-	v_request_id                            integer; 
+	v_deadline_pretty			varchar;  
+	v_object_name				text; 
+	v_workflow_key				varchar;
+	v_transition_key			wf_transitions.transition_key%TYPE;
+	v_transition_name			wf_transitions.transition_name%TYPE;
+	v_party_from				parties.party_id%TYPE;
+	v_party_to				parties.party_id%TYPE;
+	v_subject				text; 
+	v_body					text; 
+	v_request_id				integer; 
 	v_workflow_url				text;
 	v_acs_lang_package_id			integer;
+	v_notifications_installed_p		integer;
 
 	v_custom_arg				varchar;
 	v_notification_type			varchar;
@@ -1575,55 +1636,65 @@ declare
 	v_workflow_package_id			integer;
 	v_notification_n_seconds		integer;
 	v_locale				text;
-	v_count					integer;
 	v_str					varchar;
+	v_user_first_names			varchar;
+	v_user_last_name			varchar;
 begin
 	-- Default notification type
 	v_notification_type := notify_assignee__notification_type;
 	IF v_notification_type is null THEN
-	  v_notification_type := ''wf_assignment_notif'';
+		v_notification_type := 'wf_assignment_notif';
 	END IF;
 
-	select to_char(ta.deadline,''Mon fmDDfm, YYYY HH24:MI:SS''),
-		   acs_object__name(c.object_id), tr.transition_key, tr.transition_name
-	into   v_deadline_pretty, v_object_name, v_transition_key, v_transition_name
-	  from wf_tasks ta, wf_transitions tr, wf_cases c
-	 where ta.task_id = notify_assignee__task_id
-	   and c.case_id = ta.case_id
-	   and tr.workflow_key = c.workflow_key
-	   and tr.transition_key = ta.transition_key;
+	-- Get information about the workflow context into variables
+	select	to_char(ta.deadline,'Mon fmDDfm, YYYY HH24:MI:SS'),
+		acs_object__name(c.object_id), ta.workflow_key, tr.transition_key, tr.transition_name
+	into	v_deadline_pretty, v_object_name, v_workflow_key, v_transition_key, v_transition_name
+	from	wf_tasks ta, wf_transitions tr, wf_cases c
+	where	ta.task_id = notify_assignee__task_id and
+		c.case_id = ta.case_id and
+		tr.workflow_key = c.workflow_key and
+		tr.transition_key = ta.transition_key;
 
-	select a.package_id, apm__get_value(p.package_id, ''SystemURL'') || site_node__url(s.node_id)
-	  into v_workflow_package_id, v_workflow_url
-	  from site_nodes s, apm_packages a,
-		   (select package_id
+	select	a.package_id, apm__get_value(p.package_id, 'SystemURL') || site_node__url(s.node_id)
+	into	v_workflow_package_id, v_workflow_url
+	from	site_nodes s, apm_packages a,
+		(select package_id
 		from apm_packages 
-		where package_key = ''acs-kernel'') p
-	 where s.object_id = a.package_id 
-	   and a.package_key = ''acs-workflow'';
-	v_workflow_url := v_workflow_url || ''task?task_id='' || notify_assignee__task_id;
+		where package_key = 'acs-kernel') p
+	where	s.object_id = a.package_id and
+		a.package_key = 'acs-workflow';
+	v_workflow_url := v_workflow_url || 'task?task_id=' || notify_assignee__task_id;
 
-	  select wfi.principal_party into v_party_from
-		from wf_context_workflow_info wfi, wf_tasks ta, wf_cases c
-	   where ta.task_id = notify_assignee__task_id
-		 and c.case_id = ta.case_id
-		 and wfi.workflow_key = c.workflow_key
-		 and wfi.context_key = c.context_key;
+	select	pe.first_names, pe.last_name
+	into	v_user_first_names, v_user_last_name
+	from	persons pe
+	where	pe.person_id = notify_assignee__user_id;
+	RAISE NOTICE 'workflow_case__notify_assignee: task_id=%, user_id=%, obj=%, wf=%, trans=%',
+	      notify_assignee__task_id, notify_assignee__user_id, v_object_name, v_workflow_key, v_transition_key;
+
+	select	wfi.principal_party 
+	into	v_party_from
+	from	wf_context_workflow_info wfi, wf_tasks ta, wf_cases c
+	where	ta.task_id = notify_assignee__task_id and
+		c.case_id = ta.case_id and 
+		wfi.workflow_key = c.workflow_key and
+		wfi.context_key = c.context_key;
 	if NOT FOUND then v_party_from := -1; end if;
 
 	-- Check whether the "notifications" package is installed and get
 	-- the notification interval of the user.
-	select count(*) into v_count 
-	from user_tab_columns
-	where lower(table_name) = ''notifications'';
-	IF v_count > 0 THEN
+	select	count(*) into v_notifications_installed_p 
+	from	user_tab_columns
+	where	lower(table_name) = 'notifications';
+	IF v_notifications_installed_p > 0 THEN
 
 		-- Notification Type is a kind of "channel" where to spread notifics
-		select type_id into v_notification_type_id
-		from notification_types
-		where short_name = v_notification_type;
+		select	type_id into v_notification_type_id
+		from	notification_types
+		where	short_name = v_notification_type;
 
-		-- Check the 
+		-- Check if the user is "subscribed" to these notifications
 		select	n_seconds into v_notification_n_seconds
 		from	notification_requests r,
 			notification_intervals i
@@ -1640,80 +1711,60 @@ begin
 	-- Get the System Locale
 	select	package_id into	v_acs_lang_package_id
 	from	apm_packages
-	where	package_key = ''acs-lang'';
-	v_locale := apm__get_value (v_acs_lang_package_id, ''SiteWideLocale'');
+	where	package_key = 'acs-lang';
+	v_locale := apm__get_value(v_acs_lang_package_id, 'SiteWideLocale');
 
 	-- make sure there are no null values - replaces(...,null) returns null...
-	IF v_deadline_pretty is NULL THEN v_deadline_pretty := ''undefined''; END IF;
-	IF v_workflow_url is NULL THEN v_workflow_url := ''undefined''; END IF;
+	IF v_deadline_pretty is NULL THEN v_deadline_pretty := 'undefined'; END IF;
+	IF v_workflow_url is NULL THEN v_workflow_url := 'undefined'; END IF;
 
 	-- ------------------------------------------------------------
-	-- Try with specific translation first
-	v_subject := ''Notification_Subject_'' || v_transition_key || ''_'' || v_notification_type;
-	v_subject := acs_lang_lookup_message(v_locale, ''acs-workflow'', v_subject);
+	-- Lookup message and substitute
+	v_subject := workflow_case__notify_l10n_lookup ('Notification_Subject', v_notification_type, v_workflow_key, v_transition_key, v_locale, 0);
+	v_subject := replace(v_subject, '%object_name%', v_object_name);
+	v_subject := replace(v_subject, '%transition_name%', v_transition_name);
+	v_subject := replace(v_subject, '%deadline%', v_deadline_pretty);
 
-	-- Fallback to generic (no transition key) translation
-	IF substring(v_subject from 1 for 7) = ''MISSING'' THEN
-		v_subject := ''Notification_Subject_'' || v_transition_key;
-		v_subject := acs_lang_lookup_message(v_locale, ''acs-workflow'', v_subject);
-	END IF;
-	
-	-- Replace variables
-	v_subject := replace(v_subject, ''%object_name%'', v_object_name);
-	v_subject := replace(v_subject, ''%transition_name%'', v_transition_name);
-	v_subject := replace(v_subject, ''%deadline%'', v_deadline_pretty);
+	v_body := workflow_case__notify_l10n_lookup ('Notification_Body', v_notification_type, v_workflow_key, v_transition_key, v_locale, 1);
+	v_body := replace(v_body, '%deadline%', v_deadline_pretty);
+	v_body := replace(v_body, '%object_name%', v_object_name);
+	v_body := replace(v_body, '%transition_name%', v_transition_name);
+	v_body := replace(v_body, '%workflow_url%', v_workflow_url);
+	v_body := replace(v_body, '%first_names%', v_user_first_names);
+	v_body := replace(v_body, '%last_name%', v_user_first_names);
 
-	-- ------------------------------------------------------------
-	-- Try with specific translation first
-	v_body := ''Notification_Body_'' || v_transition_key || ''_'' || v_notification_type;
-	v_body := acs_lang_lookup_message(v_locale, ''acs-workflow'', v_body);
-
-	-- Fallback to generic (no transition key) translation
-	IF substring(v_body from 1 for 7) = ''MISSING'' THEN
-		v_body := ''Notification_Body_'' || v_transition_key;
-		v_body := acs_lang_lookup_message(v_locale, ''acs-workflow'', v_body);
-	END IF;
-
-	-- Replace variables
-	v_body := replace(v_body, ''%object_name%'', v_object_name);
-	v_body := replace(v_body, ''%transition_name%'', v_transition_name);
-	v_body := replace(v_body, ''%deadline%'', v_deadline_pretty);
-	v_body := replace(v_body, ''%workflow_url%'', v_workflow_url);
-
-	RAISE NOTICE ''workflow_case__notify_assignee: Subject=%, Body=%'', v_subject, v_body;
+	RAISE NOTICE 'workflow_case__notify_assignee: Subject=%, Body=%', v_subject, v_body;
 
 	v_custom_arg := notify_assignee__custom_arg;
-	IF v_custom_arg is null THEN v_custom_arg := ''null''; END IF;
+	IF v_custom_arg is null THEN v_custom_arg := 'null'; END IF;
 
-	if notify_assignee__callback != '''' and notify_assignee__callback is not null then
-
-		v_str :=  ''select '' || notify_assignee__callback || '' ('' ||
-		      notify_assignee__task_id || '','' ||
-		      quote_literal(v_custom_arg) || '','' ||
-		      notify_assignee__user_id || '','' ||
-		      v_party_from || '','' ||
-		      quote_literal(v_subject) || '','' ||
-		      quote_literal(v_body) || '')'';
-
+	if notify_assignee__callback != '' and notify_assignee__callback is not null then
+		v_str := 'select ' || notify_assignee__callback || ' (' ||
+			notify_assignee__task_id || ',' ||
+			quote_literal(v_custom_arg) || ',' ||
+			notify_assignee__user_id || ',' ||
+			v_party_from || ',' ||
+			quote_literal(v_subject) || ',' ||
+			quote_literal(v_body) || ')';
 		execute v_str;
 	else
 		v_request_id := acs_mail_nt__post_request (
-			v_party_from,                 -- party_from
-			notify_assignee__user_id,     -- party_to
-			''f'',                        -- expand_group
-			v_subject,                    -- subject
-			v_body,                       -- message
-			0                             -- max_retries
+			v_party_from,				-- party_from
+			notify_assignee__user_id,		-- party_to
+			'f',					-- expand_group
+			v_subject,				-- subject
+			v_body,					-- message
+			0					-- max_retries
 		);
 	end if;
 
-	  return 0; 
-end;' language 'plpgsql';
+	return 0; 
+end;$$ language 'plpgsql';
 
 
 -- procedure enable_transitions
 create or replace function workflow_case__enable_transitions (integer)
-returns integer as '
+returns integer as $$
 declare
 	enable_transitions__case_id                alias for $1;  
 	v_task_id                                  integer;        
@@ -1733,10 +1784,10 @@ begin
 	/* we mark tasks overridden if they were once enabled, but are no longer so */
 
 	update wf_tasks 
-	set    state = ''overridden'',
+	set    state = 'overridden',
 		   overridden_date = now()
 	where  case_id = enable_transitions__case_id 
-	and    state = ''enabled''
+	and    state = 'enabled'
 	and    transition_key not in 
 		(select transition_key 
 		 from wf_enabled_transitions 
@@ -1768,13 +1819,13 @@ begin
 		   and not exists (select 1 from wf_tasks 
 		               where case_id = enable_transitions__case_id
 		               and   transition_key = et.transition_key
-		               and   state in (''enabled'', ''started'')) 
+		               and   state in ('enabled', 'started')) 
 	LOOP
 
 		v_trigger_time := null;
 		v_deadline_date := null;
 
-		if trans_rec.trigger_type = ''user'' then
+		if trans_rec.trigger_type = 'user' then
 		v_deadline_date := workflow_case__get_task_deadline (
 		    trans_rec.deadline_callback, 
 		    trans_rec.deadline_custom_arg,
@@ -1832,12 +1883,12 @@ begin
 	end loop;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure fire_transition_internal
 create or replace function workflow_case__fire_transition_internal (integer,integer)
-returns integer as '
+returns integer as $$
 declare
 	fire_transition_internal__task_id                alias for $1;  
 	fire_transition_internal__journal_id             alias for $2;  
@@ -1866,17 +1917,17 @@ begin
 		and ti.transition_key = t.transition_key;
 
 	/* Check that the state is either started or enabled */
-	if v_state = ''enabled'' then 
+	if v_state = 'enabled' then 
 		v_locked_task_id := null;
-	else if v_state = ''started'' then
+	else if v_state = 'started' then
 		v_locked_task_id := fire_transition_internal__task_id;
 	else 
-		raise EXCEPTION ''-20000: Can''''t fire the transition if it''''s not in state enabled or started'';
+		raise EXCEPTION '-20000: Can nott fire the transition if it is not in state enabled or started';
 	end if; end if;
 
 	/* Mark the task finished */
 	update wf_tasks
-	set    state = ''finished'',
+	set    state = 'finished',
 		   finished_date = now()
 	where  task_id = fire_transition_internal__task_id;
 
@@ -1897,13 +1948,13 @@ begin
 
 	  
 	/* Spit out new tokens in the output places */
-	v_found_happy_guard := ''f'';
+	v_found_happy_guard := 'f';
 	FOR place_rec IN
 		select	*
 		from	wf_transition_places tp
 		where	tp.workflow_key = v_workflow_key
 			and tp.transition_key = v_transition_key
-			and direction = ''out''
+			and direction = 'out'
 	LOOP
 		v_place_key := place_rec.place_key;
 		v_direction := place_rec.direction;
@@ -1918,8 +1969,8 @@ begin
 		v_direction
 		);
 	  
-		IF v_guard_happy_p = ''t'' THEN
-		v_found_happy_guard := ''t'';
+		IF v_guard_happy_p = 't' THEN
+		v_found_happy_guard := 't';
 		PERFORM workflow_case__add_token (
 		    v_case_id, 
 		    place_rec.place_key,
@@ -1930,14 +1981,14 @@ begin
 
 
 	/* If we did not find any happy guards, look for arcs with the special hash (#) guard */
-	if v_found_happy_guard = ''f'' then
+	if v_found_happy_guard = 'f' then
 		for place_rec in 
 		select place_key
 		from   wf_transition_places tp
 		where  tp.workflow_key = v_workflow_key
 		and    tp.transition_key = v_transition_key
-		and    tp.direction = ''out''
-		and    tp.guard_callback = ''#''
+		and    tp.direction = 'out'
+		and    tp.guard_callback = '#'
 		loop
 
 		PERFORM workflow_case__add_token (
@@ -1958,12 +2009,12 @@ begin
 	);
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure ensure_task_in_state
 create or replace function workflow_case__ensure_task_in_state (integer,varchar)
-returns integer as '
+returns integer as $$
 declare
 	ensure_task_in_state__task_id         alias for $1;  
 	ensure_task_in_state__state           alias for $2;  
@@ -1975,16 +2026,16 @@ begin
 	and    state = ensure_task_in_state__state;
 	  
 	if v_count != 1 then
-		raise EXCEPTION ''-20000: The task %  is not in state "%"'', ensure_task_in_state__task_id, ensure_task_in_state__state;
+		raise EXCEPTION '-20000: The task %  is not in state "%"', ensure_task_in_state__task_id, ensure_task_in_state__state;
 	end if;
 	
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure start_task
 create or replace function workflow_case__start_task (integer,integer,integer)
-returns integer as '
+returns integer as $$
 declare
 	start_task__task_id                alias for $1;  
 	start_task__user_id                alias for $2;  
@@ -1997,7 +2048,7 @@ declare
 	v_hold_timeout                     timestamptz;     
 	place_rec                          record;
 begin
-	PERFORM workflow_case__ensure_task_in_state(start_task__task_id, ''enabled'');
+	PERFORM workflow_case__ensure_task_in_state(start_task__task_id, 'enabled');
 
 	select t.case_id, t.workflow_key, t.transition_key, ti.hold_timeout_callback, ti.hold_timeout_custom_arg 
 	into   v_case_id, v_workflow_key, v_transition_key, v_hold_timeout_callback, v_hold_timeout_custom_arg
@@ -2016,7 +2067,7 @@ begin
 
 	/* Mark it started */
 	update wf_tasks 
-	set	state = ''started'', 
+	set	state = 'started', 
 		started_date = now(),
 		holding_user = start_task__user_id, 
 		hold_timeout = v_hold_timeout
@@ -2028,7 +2079,7 @@ begin
 	from   wf_transition_places tp
 	where  tp.workflow_key = v_workflow_key
 	and    tp.transition_key = v_transition_key
-	and    direction = ''in''
+	and    direction = 'in'
 	LOOP
 		PERFORM workflow_case__lock_token (  
 			v_case_id,
@@ -2039,19 +2090,19 @@ begin
 	end loop;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure cancel_task
 create or replace function workflow_case__cancel_task (integer,integer)
-returns integer as '
+returns integer as $$
 declare
 	cancel_task__task_id                alias for $1;  
 	cancel_task__journal_id             alias for $2;  
 	v_case_id                           integer;
 begin
 	PERFORM workflow_case__ensure_task_in_state (cancel_task__task_id, 
-		                                    ''started'');
+		                                    'started');
 	select case_id into v_case_id 
 	from wf_tasks 
 	where task_id = cancel_task__task_id;
@@ -2059,7 +2110,7 @@ begin
 	/* Mark the task canceled */
 
 	update wf_tasks 
-	set    state = ''canceled'',
+	set    state = 'canceled',
 		   canceled_date =  now()
 	where  task_id = cancel_task__task_id;
 
@@ -2079,12 +2130,12 @@ begin
 	);
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure finish_task
 create or replace function workflow_case__finish_task (integer,integer)
-returns integer as '
+returns integer as $$
 declare
 	finish_task__task_id                alias for $1;  
 	finish_task__journal_id             alias for $2;  
@@ -2105,10 +2156,10 @@ begin
 	);
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 create or replace function workflow_case__get_task_id (integer, integer)
-returns integer as '
+returns integer as $$
 declare
 	get_task_id__case_id         alias for $1;
 	get_task_id__transition_key  alias for $2;
@@ -2121,7 +2172,7 @@ begin
 	      transition_key = get_task_id__transition_key;
 
 	IF not found THEN
-	   raise EXCEPTION ''Case % has no transition with key %'', get_task_id__case_id, get_task_id__transition_key;
+	   raise EXCEPTION 'Case % has no transition with key %', get_task_id__case_id, get_task_id__transition_key;
 	END IF;
 	return v_task_id;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';

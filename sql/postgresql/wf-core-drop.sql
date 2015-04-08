@@ -11,7 +11,7 @@
 --
 
 /* Drop all cases and all workflows */
-create function inline_0 () returns integer as '
+create function inline_0 () returns integer as $$
 declare
         workflow_rec    record;
 begin
@@ -21,12 +21,12 @@ begin
     LOOP
         PERFORM workflow__delete_cases(workflow_rec.workflow_key);
 	
-        execute  ''drop table '' || workflow_rec.table_name;
+        execute  'drop table ' || workflow_rec.table_name;
         PERFORM workflow__drop_workflow(workflow_rec.workflow_key);
     end loop;
 
     return null;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 select inline_0 ();
 drop function inline_0 ();

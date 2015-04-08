@@ -18,22 +18,22 @@
 /* Create the workflow superclass */
 
 create function inline_0 () 
-returns integer as '
+returns integer as $$
 begin
 	PERFORM acs_object_type__create_type (
-		''workflow'',
-		''Workflow'',
-		''Workflow'',
-		''acs_object'',
-		''wf_cases'',
-		''case_id'',
+		'workflow',
+		'Workflow',
+		'Workflow',
+		'acs_object',
+		'wf_cases',
+		'case_id',
 		null,
-		''f'',
+		'f',
 		null,
 		null
 	);
 	return 0;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 select inline_0 ();
 drop function inline_0 ();
 

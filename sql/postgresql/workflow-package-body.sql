@@ -3,14 +3,14 @@
 -- create or replace package body workflow 
 -- function create_workflow
 create or replace function workflow__create_workflow (varchar,varchar,varchar,varchar,varchar,varchar)
-returns varchar as '
+returns varchar as $$
 declare
 	create_workflow__workflow_key		alias for $1;	
 	create_workflow__pretty_name		alias for $2;	
 	create_workflow__pretty_plural		alias for $3;	-- default null	
 	create_workflow__description		alias for $4;	-- default null
 	create_workflow__table_name		alias for $5;	
-	create_workflow__id_column		alias for $6;	-- default ''case_id''
+	create_workflow__id_column		alias for $6;	-- default 'case_id'
 	v_num_rows				integer;
 	v_workflow_key				varchar;
 begin
@@ -18,11 +18,11 @@ begin
 	where relname = lower(create_workflow__table_name);
 
 	if v_num_rows = 0 then
-		raise EXCEPTION ''-20000: The table "%"must be created before calling workflow.create_workflow.'', create_workflow__table_name;
+		raise EXCEPTION '-20000: The table "%"must be created before calling workflow.create_workflow.', create_workflow__table_name;
 	end if;
 
-	if substr(create_workflow__workflow_key, length(create_workflow__workflow_key) - 2, 3) != ''_wf'' then
-		v_workflow_key := create_workflow__workflow_key || ''_wf'';
+	if substr(create_workflow__workflow_key, length(create_workflow__workflow_key) - 2, 3) != '_wf' then
+		v_workflow_key := create_workflow__workflow_key || '_wf';
 	else
 		v_workflow_key := create_workflow__workflow_key;
 	end if;
@@ -31,11 +31,11 @@ begin
 		v_workflow_key, 
 		create_workflow__pretty_name, 
 		create_workflow__pretty_plural,
-		''workflow'',
+		'workflow',
 		create_workflow__table_name,
 		create_workflow__id_column,
 		null,
-		''f'',
+		'f',
 		null,
 		null
 	);
@@ -48,12 +48,12 @@ begin
 
 	return v_workflow_key;
 	
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 /* Note: The workflow-specific cases table must be dropped before calling this proc */
 create or replace function workflow__drop_workflow (varchar)
-returns integer as '
+returns integer as $$
 declare
 	drop_workflow__workflow_key		alias for $1;	
 	v_table_name				varchar;	
@@ -67,14 +67,14 @@ begin
 	where	relname = lower(v_table_name);
 
 	if v_num_rows > 0 then
-		raise EXCEPTION ''-20000: The table "%" must be dropped before calling workflow__drop_workflow.'', v_table_name;
+		raise EXCEPTION '-20000: The table "%" must be dropped before calling workflow__drop_workflow.', v_table_name;
 	end if;
 
 	select case when count(*) = 0 then 0 else 1 end into v_num_rows from wf_cases
 	where	workflow_key = drop_workflow__workflow_key;
 
 	if v_num_rows > 0 then
-		raise EXCEPTION ''-20000: You must delete all cases of workflow "%" before dropping the workflow definition.'', drop_workflow__workflow_key;
+		raise EXCEPTION '-20000: You must delete all cases of workflow "%" before dropping the workflow definition.', drop_workflow__workflow_key;
 	end if;
 
 	/* Delete all the auxillary stuff */
@@ -112,16 +112,16 @@ begin
 	
 	PERFORM acs_object_type__drop_type (
 		drop_workflow__workflow_key,
-		''f''
+		'f'
 	);
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure delete_cases
 create or replace function workflow__delete_cases (varchar)
-returns integer as '
+returns integer as $$
 declare
 	delete_cases__workflow_key		alias for $1; 
 	case_rec				record; 
@@ -135,12 +135,12 @@ begin
 	end loop;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- function create_attribute
 create or replace function workflow__create_attribute (varchar,varchar,varchar,varchar,varchar,varchar,varchar,varchar,integer,integer,integer,varchar)
-returns integer as '
+returns integer as $$
 declare
 	create_attribute__workflow_key		alias for $1;	
 	create_attribute__attribute_name	alias for $2;	
@@ -153,7 +153,7 @@ declare
 	create_attribute__min_n_values		alias for $9;	-- default 1
 	create_attribute__max_n_values		alias for $10; -- default 1
 	create_attribute__sort_order		alias for $11; -- default null
-	create_attribute__storage		alias for $12; -- default ''generic''
+	create_attribute__storage		alias for $12; -- default 'generic'
 	v_attribute_id				integer;	
 begin
 	v_attribute_id := acs_attribute__create_attribute(
@@ -169,17 +169,17 @@ begin
 		create_attribute__max_n_values,
 		create_attribute__sort_order,
 		create_attribute__storage,
-		''f''
+		'f'
 	);
 
 	return v_attribute_id;
 	
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure drop_attribute
 create or replace function workflow__drop_attribute (varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	drop_attribute__workflow_key	alias for $1;	
 	drop_attribute__attribute_name	alias for $2;	
@@ -196,12 +196,12 @@ begin
 	);
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure add_place
 create or replace function workflow__add_place (varchar,varchar,varchar,integer)
-returns integer as '
+returns integer as $$
 declare
 	add_place__workflow_key		alias for $1;	
 	add_place__place_key		alias for $2;	
@@ -221,12 +221,12 @@ begin
 	values (add_place__workflow_key, add_place__place_key,add_place__place_name, add_place__sort_order);
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure delete_place
 create or replace function workflow__delete_place (varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	delete_place__workflow_key	alias for $1;	
 	delete_place__place_key		alias for $2;	
@@ -236,12 +236,12 @@ begin
 	and	place_key = delete_place__place_key;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure add_role
 create or replace function workflow__add_role (varchar,varchar,varchar,integer)
-returns integer as '
+returns integer as $$
 declare
 	add_role__workflow_key		alias for $1;
 	add_role__role_key		alias for $2;
@@ -263,12 +263,12 @@ begin
 		add_role__workflow_key, add_role__role_key, add_role__role_name, v_sort_order
 	);
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure move_role_up
 create or replace function workflow__move_role_up (varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	move_role_up__workflow_key		alias for $1;
 	move_role_up__role_key			alias for $2;
@@ -297,12 +297,12 @@ begin
 		and sort_order in (v_this_sort_order, v_prior_sort_order);
 
 	return 0;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure move_role_down
 create or replace function workflow__move_role_down (varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	move_role_down__workflow_key		alias for $1;
 	move_role_down__role_key		alias for $2;
@@ -333,12 +333,12 @@ begin
 		and sort_order in (v_this_sort_order, v_next_sort_order);
 
 	return 0;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure delete_role
 create or replace function workflow__delete_role (varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	delete_role__workflow_key		alias for $1;
 	delete_role__role_key			alias for $2;
@@ -354,19 +354,19 @@ begin
 	and	role_key = delete_role__role_key;
 
 	return 0;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure add_transition
 create or replace function workflow__add_transition (varchar,varchar,varchar,varchar,integer,varchar)
-returns integer as '
+returns integer as $$
 declare
 	add_transition__workflow_key		alias for $1;	
 	add_transition__transition_key		alias for $2;	
 	add_transition__transition_name		alias for $3;	
 	add_transition__role_key		alias for $4;
 	add_transition__sort_order		alias for $5;	
-	add_transition__trigger_type		alias for $6;	-- default ''user''
+	add_transition__trigger_type		alias for $6;	-- default 'user'
 	v_sort_order				integer;
 begin
 	if add_transition__sort_order is null then
@@ -394,12 +394,12 @@ begin
 	);
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure delete_transition
 create or replace function workflow__delete_transition (varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	delete_transition__workflow_key	alias for $1;	
 	delete_transition__transition_key	alias for $2;	
@@ -409,12 +409,12 @@ begin
 	and	transition_key = delete_transition__transition_key;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure add_arc
 create or replace function workflow__add_arc (varchar,varchar,varchar,varchar,varchar,varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	add_arc__workflow_key		alias for $1;	
 	add_arc__transition_key		alias for $2;	
@@ -430,12 +430,12 @@ begin
 	add_arc__guard_callback, add_arc__guard_custom_arg, add_arc__guard_description);
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure add_arc
 create or replace function workflow__add_arc (varchar,varchar,varchar,varchar,varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	add_arc__workflow_key		alias for $1;
 	add_arc__from_transition_key	alias for $2;
@@ -448,19 +448,19 @@ begin
 		add_arc__workflow_key,
 		add_arc__from_transition_key,
 		add_arc__to_place_key,
-		''out'',
+		'out',
 		add_arc__guard_callback,
 		add_arc__guard_custom_arg,
 		add_arc__guard_description
 	);
 
 	return 0;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure add_arc
 create or replace function workflow__add_arc (varchar,varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	add_arc__workflow_key		alias for $1;
 	add_arc__from_place_key		alias for $2;
@@ -470,19 +470,19 @@ begin
 		add_arc__workflow_key,
 		add_arc__to_transition_key,
 		add_arc__from_place_key,
-		''in'',
+		'in',
 		null,
 		null,
 		null
 	);	
 
 	return 0;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure delete_arc
 create or replace function workflow__delete_arc (varchar,varchar,varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	delete_arc__workflow_key	alias for $1;	
 	delete_arc__transition_key	alias for $2;	
@@ -496,13 +496,13 @@ begin
 	and	direction = delete_arc__direction;
 
 	return 0; 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 
 -- procedure add_trans_attribute_map
 create or replace function workflow__add_trans_attribute_map (varchar,varchar,integer,integer)
-returns integer as '
+returns integer as $$
 declare
 	p_workflow_key			alias for $1;
 	p_transition_key		alias for $2; 
@@ -542,13 +542,13 @@ begin
 		v_sort_order
 	);
 	return 0;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 
 -- procedure add_trans_attribute_map
 create or replace function workflow__add_trans_attribute_map (varchar,varchar,varchar,integer)
-returns integer as '
+returns integer as $$
 declare
 	p_workflow_key			alias for $1;
 	p_transition_key		alias for $2;
@@ -571,12 +571,12 @@ begin
 
 	return 0;
 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure delete_trans_attribute_map
 create or replace function workflow__delete_trans_attribute_map (varchar,varchar,integer)
-returns integer as '
+returns integer as $$
 declare
 	p_workflow_key			alias for $1;
 	p_transition_key		alias for $2;
@@ -589,11 +589,11 @@ begin
 		and attribute_id = p_attribute_id;
 
 	return 0;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 -- procedure delete_trans_attribute_map
 create or replace function workflow__delete_trans_attribute_map (varchar,varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	p_workflow_key			alias for $1;
 	p_transition_key		alias for $2;
@@ -612,12 +612,12 @@ begin
 		and attribute_id = v_attribute_id;
 
 	return 0;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 -- procedure add_trans_role_assign_map
 create or replace function workflow__add_trans_role_assign_map (varchar,varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	p_workflow_key			alias for $1;
 	p_transition_key		alias for $2;
@@ -644,11 +644,11 @@ begin
 	end if;
 
 	return 0;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 -- procedure delete_trans_role_assign_map
 create or replace function workflow__delete_trans_role_assign_map (varchar,varchar,varchar)
-returns integer as '
+returns integer as $$
 declare
 	p_workflow_key			alias for $1;
 	p_transition_key		alias for $2;
@@ -660,7 +660,7 @@ begin
 		and assign_role_key = p_assign_role_key;
 
 	return 0;
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
 
@@ -691,13 +691,13 @@ create table guard_list (
 );
 
 create or replace function workflow__simple_p (varchar)
-returns boolean as '
+returns boolean as $$
 declare
 	simple_p__workflow_key		alias for $1;	
 	v_session_id			integer;
 	retval				boolean;
 begin
-	v_session_id := nextval(''workflow_session_id'');
+	v_session_id := nextval('workflow_session_id');
 	retval := __workflow__simple_p(simple_p__workflow_key, v_session_id);
 
 	delete from previous_place_list where session_id = v_session_id;
@@ -706,12 +706,12 @@ begin
 
 	return retval;
 
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 -- function simple_p
 
 create or replace function __workflow__simple_p (varchar,integer)
-returns boolean as '
+returns boolean as $$
 declare
 	simple_p__workflow_key		alias for $1;	
 	v_session_id			alias for $2;
@@ -744,10 +744,10 @@ begin
 			from	wf_arcs a
 			where	a.workflow_key = p.workflow_key
 			and	a.place_key = p.place_key
-			and	direction = ''in'');
-	raise notice ''query 1'';
+			and	direction = 'in');
+	raise notice 'query 1';
 	if v_count > 0 then
-		return ''f'';
+		return 'f';
 	end if;
 
 	/* Transitions with more than one arc in */
@@ -758,11 +758,11 @@ begin
 			from	wf_arcs a
 			where	a.workflow_key = t.workflow_key
 			and	a.transition_key = t.transition_key
-			and	direction = ''in'');
+			and	direction = 'in');
 
-	raise notice ''query 2'';
+	raise notice 'query 2';
 	if v_count > 0 then
-		return ''f'';
+		return 'f';
 	end if;
 
 	/* Transitions with more than two arcs out */
@@ -773,11 +773,11 @@ begin
 			from	wf_arcs a
 			where	a.workflow_key = t.workflow_key
 			and	a.transition_key = t.transition_key
-			and	direction = ''out'');
+			and	direction = 'out');
 
-	raise notice ''query 3'';
+	raise notice 'query 3';
 	if v_count > 0 then
-		return ''f'';
+		return 'f';
 	end if;
 
 	/* Now we do the more complicated checks.
@@ -786,8 +786,8 @@ begin
 	*/
 
 
-	v_place_key := ''start'';
-	v_end_place := ''end'';
+	v_place_key := 'start';
+	v_end_place := 'end';
 
 	loop
 		exit when v_place_key = v_end_place;
@@ -797,33 +797,33 @@ begin
 		(session_id,rcnt,ky) 
 		values 
 		(v_session_id,v_row_count,v_place_key);
-	raise notice ''query 4'';
+	raise notice 'query 4';
 
 		select distinct transition_key into v_transition_key
 		from	wf_arcs
 		where	workflow_key = simple_p__workflow_key
 		and	place_key = v_place_key
-		and	direction = ''in'';
-	raise notice ''query 5'';
+		and	direction = 'in';
+	raise notice 'query 5';
 
 		select count(*) into v_count
 		from wf_arcs
 		where workflow_key = simple_p__workflow_key
 		and	transition_key = v_transition_key
-		and	direction = ''out'';
-	raise notice ''query 6'';
+		and	direction = 'out';
+	raise notice 'query 6';
 
 		if v_count = 1 then
 			select distinct place_key into v_place_key
 			from wf_arcs
 			where workflow_key = simple_p__workflow_key
 			and	transition_key = v_transition_key
-			and	direction = ''out'';
-	raise notice ''query 7'';
+			and	direction = 'out';
+	raise notice 'query 7';
 
 		else if v_count = 0 then
 			/* deadend! */
-			return ''f'';
+			return 'f';
 
 		else
 			/* better be two based on our earlier test */
@@ -834,19 +834,19 @@ begin
 				from	wf_arcs
 				where	workflow_key = simple_p__workflow_key
 				and	transition_key = v_transition_key
-				and	direction = ''out''
+				and	direction = 'out'
 			LOOP
 			-- target_place_list(v_target.rownum) := v_target.place_key;
-	raise notice ''query 8'';
+	raise notice 'query 8';
 			insert into target_place_list (session_id,rcnt,ky) 
 			values (v_session_id,v_rownum,v_target.place_key);
-	raise notice ''query 9'';
+	raise notice 'query 9';
 
 			-- guard_list(v_target.rownum) := v_target.guard_callback; 
 			insert into guard_list (session_id,rcnt,ky) 
 			values (v_session_id,v_rownum,v_target.guard_callback);
 			v_rownum := v_rownum + 1;
-	raise notice ''query 10'';
+	raise notice 'query 10';
 			end loop;
 	
 			/* Check that the guard functions are the negation of each other 
@@ -854,15 +854,15 @@ begin
 			*/
 			select ky into guard_list_1 from guard_list 
 			where session_id = v_session_id and rcnt = 1;
-	raise notice ''query 11'';
+	raise notice 'query 11';
 
 			select ky into guard_list_2 from guard_list 
 			where session_id = v_session_id and rcnt = 2;
-	raise notice ''query 12'';
+	raise notice 'query 12';
 
-			if ((guard_list_1 != ''#'' and guard_list_2 != ''#'') or
-			(guard_list_1 = ''#'' and guard_list_2 = ''#'')) then
-			return ''f'';
+			if ((guard_list_1 != '#' and guard_list_2 != '#') or
+			(guard_list_1 = '#' and guard_list_2 = '#')) then
+			return 'f';
 			end if;
 	
 			/* Check that exactly one of the targets is in the previous list */
@@ -870,11 +870,11 @@ begin
 			v_count2 := 0;
 			select ky into target_place_list_1 from target_place_list 
 			where session_id = v_session_id and rcnt = 1;
-	raise notice ''query 13'';
+	raise notice 'query 13';
 
 			select ky into target_place_list_2 from target_place_list 
 			where session_id = v_session_id and rcnt = 2;			
-	raise notice ''query 14'';
+	raise notice 'query 14';
 
 			for i in 0..v_row_count LOOP
 				select ky into previous_place_list_i 
@@ -889,10 +889,10 @@ begin
 				v_place_key := target_place_list_1;
 			end if;
 			end loop;
-	raise notice ''query 15'';
+	raise notice 'query 15';
 
 			if v_count2 != 1 then
-			return ''f'';
+			return 'f';
 			end if;
 
 		end if; end if;
@@ -902,9 +902,9 @@ begin
 	end loop;
 
 	/* if we got here, it must be okay */
-	return ''t'';
+	return 't';
 
 	
-end;' language 'plpgsql';
+end;$$ language 'plpgsql';
 
 
