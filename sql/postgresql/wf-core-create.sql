@@ -445,7 +445,7 @@ create table wf_context_task_panels (
 					check (only_display_when_started_p in ('t','f')),
 	overrides_both_panels_p		char(1) default 'f'
 					constraint wf_context_panels_ovverides_both_ck
-					overrides_both_panels_p_panels_p in ('t','f')),
+					check (overrides_both_panels_p in ('t','f')),
 	-- table constraints --
 	constraint wf_context_panels_trans_fk
 	foreign key (workflow_key, transition_key) references wf_transitions(workflow_key, transition_key) 
