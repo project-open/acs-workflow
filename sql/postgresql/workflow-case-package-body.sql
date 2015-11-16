@@ -1345,27 +1345,28 @@ begin
 	while v_done_p != 't' loop
 		v_done_p := 't';
 		v_finished_p := workflow_case__finished_p (
-		sweep_automatic_transitions__case_id,
-		sweep_automatic_transitions__journal_id);
+			sweep_automatic_transitions__case_id,
+			sweep_automatic_transitions__journal_id
+		);
 
 		if v_finished_p = 'f' then
-		for task_rec in 
-		    select task_id
-		    from   wf_tasks ta, wf_transitions tr
-		    where  tr.workflow_key = ta.workflow_key
-		    and    tr.transition_key = ta.transition_key
-		    and    tr.trigger_type = 'automatic'
-		    and    ta.state = 'enabled'
-		    and    ta.case_id = sweep_automatic_transitions__case_id
-		LOOP
-		    PERFORM workflow_case__fire_transition_internal (
-		        task_rec.task_id,
-		        sweep_automatic_transitions__journal_id
-		    );
-
-		    v_done_p := 'f';
-		end loop;
-		PERFORM workflow_case__enable_transitions(sweep_automatic_transitions__case_id);
+			for task_rec in 
+			    select task_id
+			    from   wf_tasks ta, wf_transitions tr
+			    where  tr.workflow_key = ta.workflow_key
+			    and    tr.transition_key = ta.transition_key
+			    and    tr.trigger_type = 'automatic'
+			    and    ta.state = 'enabled'
+			    and    ta.case_id = sweep_automatic_transitions__case_id
+			LOOP
+			    PERFORM workflow_case__fire_transition_internal (
+			        task_rec.task_id,
+			        sweep_automatic_transitions__journal_id
+			    );
+	
+			    v_done_p := 'f';
+			end loop;
+			PERFORM workflow_case__enable_transitions(sweep_automatic_transitions__case_id);
 		end if;
 
 	end loop;
@@ -1855,7 +1856,7 @@ begin
 		);
 		
 		PERFORM workflow_case__set_task_assignments (
-		v_task_id,
+		        v_task_id,
 			trans_rec.assignment_callback,
 			trans_rec.assignment_custom_arg
 		);
