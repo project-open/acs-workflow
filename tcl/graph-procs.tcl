@@ -239,12 +239,12 @@ ad_proc wf_generate_dot_representation {
 
     set package_id [db_string package_id {select package_id from apm_packages where package_key='acs-workflow'}]
 
-    set transition_font_name [ad_parameter -package_id $package_id "transition_font_name"]
-    set place_font_name [ad_parameter -package_id $package_id "place_font_name"]
-    set guard_font_name [ad_parameter -package_id $package_id "guard_font_name"]
-    set transition_font_size [ad_parameter -package_id $package_id "transition_font_size"]
-    set place_font_size [ad_parameter -package_id $package_id "place_font_size"]
-    set guard_font_size [ad_parameter -package_id $package_id "guard_font_size"]
+    set transition_font_name [im_parameter -package_id $package_id "transition_font_name"]
+    set place_font_name [im_parameter -package_id $package_id "place_font_name"]
+    set guard_font_name [im_parameter -package_id $package_id "guard_font_name"]
+    set transition_font_size [im_parameter -package_id $package_id "transition_font_size"]
+    set place_font_size [im_parameter -package_id $package_id "place_font_size"]
+    set guard_font_size [im_parameter -package_id $package_id "guard_font_size"]
 
     # Add graph-specific info to the data structure
     foreach type { transition place } {
@@ -372,8 +372,8 @@ ad_proc wf_graphviz_dot_exec {
 } {
     ns_log Notice "wf_graphviz_dot_exec: -to_file=$to_file_p -output=$output dot=$dot"
     set package_id [db_string package_id {select package_id from apm_packages where package_key='acs-workflow'}]
-    set graphviz_dot_path [ad_parameter -package_id $package_id "graphviz_dot_path"]
-    set tmp_path [ad_parameter -package_id $package_id "tmp_path"]
+    set graphviz_dot_path [im_parameter -package_id $package_id "graphviz_dot_path"]
+    set tmp_path [im_parameter -package_id $package_id "tmp_path"]
 
     if { [empty_string_p $graphviz_dot_path] } {
 	return -code error "Graphviz is not installed."
@@ -479,7 +479,7 @@ ad_proc wf_graphviz_installed_p {} {
     @creation-date 29 September 2000
 } {
     set package_id [db_string package_id {select package_id from apm_packages where package_key='acs-workflow'}]
-    set graphviz_dot_path [ad_parameter -package_id $package_id "graphviz_dot_path"]
+    set graphviz_dot_path [im_parameter -package_id $package_id "graphviz_dot_path"]
 
     return [expr ![empty_string_p $graphviz_dot_path]]
 

@@ -27,7 +27,7 @@ set tmpfile [ns_set get $query_vars "tmpfile"]
 # Make sure the tmpfile starts off with tmp_path
 set package_id [db_string package_id {select package_id from apm_packages where package_key='acs-workflow'}]
 
-set tmp_path [ad_parameter -package_id $package_id "tmp_path"]
+set tmp_path [im_parameter -package_id $package_id "tmp_path"]
 if {[string first $tmp_path $tmpfile] != 0} {
     ad_return_complaint 1 "Invalid argument: tmpfile='$tmpfile'"
     ad_script_abort

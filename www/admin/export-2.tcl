@@ -31,7 +31,7 @@ set sql [wf_export_workflow -context_key $context_key $workflow_key]
 if { [string equal $format "save"] } {
 
     set package_id [db_string package_id {select package_id from apm_packages where package_key='acs-workflow' and rownum=1}]
-    set tmp_path [ad_parameter -package_id $package_id "tmp_path"]
+    set tmp_path [im_parameter -package_id $package_id "tmp_path"]
     if { ![file isdirectory $tmp_path] } {
 	return -code error "Parameter acs-workflow.tmp_path points to a non-existing directory: $tmp_path"
     }
