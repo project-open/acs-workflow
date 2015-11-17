@@ -28,7 +28,7 @@ ad_page_contract {
 # Defaults & Security
 
 # We don't force the user to authentify, is that right?
-set user_id [ad_get_user_id]
+set user_id [ad_conn user_id]
 set current_url [im_url_with_query]
 
 # ToDo: NOTE! We need to add some double-click protection here.

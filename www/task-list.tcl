@@ -38,7 +38,7 @@ if { ![string equal $type "enabled"] && ![string equal $type "own"] \
     ad_script_abort
 }
 
-set user_id [ad_get_user_id]
+set user_id [ad_conn user_id]
 
 set select [db_map select_list]
 

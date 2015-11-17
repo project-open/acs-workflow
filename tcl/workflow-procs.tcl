@@ -55,7 +55,7 @@ ad_proc -public wf_task_list {
     }
 
     if { [empty_string_p $user_id] } {
-        set user_id [ad_get_user_id]
+        set user_id [ad_conn user_id]
         if { $user_id == 0 } { 
             return {}
         }
@@ -283,7 +283,7 @@ ad_proc -public wf_task_info {
            and p.party_id = ut.user_id
     }
 
-    set user_id [ad_get_user_id]
+    set user_id [ad_conn user_id]
     if { [string equal $task(state) enabled] } {
         set task(this_user_is_assigned_p) [db_string this_user_is_assigned_p { 
             select count(*) from wf_user_tasks  where task_id = :task_id and user_id = :user_id
@@ -499,7 +499,7 @@ ad_proc -public wf_task_action {
     @creation-date 10 July, 2000
 } {
     if { ![info exists user_id] } {
-        set user_id [ad_get_user_id]
+        set user_id [ad_conn user_id]
     }
 
     set modifying_ip [ad_conn peeraddr]
@@ -620,7 +620,7 @@ ad_proc -public wf_case_new {
     @author Lars Pind (lars@pinds.com)
     @creation-date 10 July, 2000
 } { 
-    set user_id [ad_get_user_id]
+    set user_id [ad_conn user_id]
     set creation_ip [ad_conn peeraddr]
 
 
@@ -645,7 +645,7 @@ ad_proc -public wf_case_suspend {
     @author Lars Pind (lars@pinds.com)
     @creation-date 10 July, 2000
 } { 
-    set user_id [ad_get_user_id]
+    set user_id [ad_conn user_id]
     set ip_address [ad_conn peeraddr]
 
     db_exec_plsql case_suspend {
@@ -670,7 +670,7 @@ ad_proc -public wf_case_resume {
     @author Lars Pind (lars@pinds.com)
     @creation-date 10 July, 2000
 } { 
-    set user_id [ad_get_user_id]
+    set user_id [ad_conn user_id]
     set ip_address [ad_conn peeraddr]
 
     db_exec_plsql case_resume {
@@ -695,7 +695,7 @@ ad_proc -public wf_case_cancel {
     @author Lars Pind (lars@pinds.com)
     @creation-date 10 July, 2000
 } { 
-    set user_id [ad_get_user_id]
+    set user_id [ad_conn user_id]
     set ip_address [ad_conn peeraddr]
 
     db_exec_plsql case_cancel {
@@ -720,7 +720,7 @@ ad_proc -public wf_case_comment {
     @author Lars Pind (lars@pinds.com)
     @creation-date 10 July, 2000
 } {
-    set user_id [ad_get_user_id]
+    set user_id [ad_conn user_id]
     set ip_address [ad_conn peeraddr]
     
     set journal_id [db_exec_plsql case_comment {
@@ -1796,7 +1796,7 @@ ad_proc -public wf_new_journal {
     set user_id 0
     set peer_ip "0.0.0.0"
     catch { 
-	set user_id [ad_get_user_id]
+	set user_id [ad_conn user_id]
 	set peer_ip [ad_conn peeraddr]
     }
 
@@ -1834,7 +1834,7 @@ ad_proc wf_sweep_message_transition_tcl {} {
     @author Frank Bergmann (frank.bergmann@project-open.com)
 } {
     ns_log Notice "workflow-case: sweeping message transition TCL"
-    set user_id [ad_get_user_id]
+    set user_id [ad_conn user_id]
     set ip_address [ad_conn peeraddr]
 
     set sweep_sql "
