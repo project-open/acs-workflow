@@ -20,7 +20,7 @@ ad_page_contract {
     task_html
     user_id
     return_url
-    export_form_vars
+    export_vars
     extreme_p 
 }
 
@@ -156,6 +156,6 @@ if { [string compare $case_state "active"] == 0 && ($wf_suspend_case_p || $wf_ca
 
 wf_sweep_message_transition_tcl
 
-set export_form_vars [export_vars -form {task_id return_url}]
+set export_vars [export_vars -form {task_id return_url}]
 
 ad_return_template

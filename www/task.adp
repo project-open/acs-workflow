@@ -21,7 +21,7 @@
 					<tr>
 						<multiple name="panels">
 						        <td valign="top">
-	    							<include src="@panels.template_url;noquote@" &="task" &="task_attributes_to_set" &="task_assigned_users" &="task_roles_to_assign" &="export_form_vars" &="return_url">
+	    							<include src="@panels.template_url;noquote@" &="task" &="task_attributes_to_set" &="task_assigned_users" &="task_roles_to_assign" &="export_vars" &="return_url">
 			        			</td>
 						</multiple>
 					</tr>

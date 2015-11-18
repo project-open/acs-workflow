@@ -12,7 +12,7 @@ ad_page_contract {
     workflow:onerow
     role:onerow
     available_transitions:multirow
-    export_form_vars {
+    export_vars {
 } -validate {
     workflow_exists -requires {workflow_key} {
 	if { 0 == [db_string workflow_exists "
@@ -59,6 +59,6 @@ db_multirow available_transitions workflow_transitions {
 } {
 }
 
-set export_form_vars [export_vars -form {workflow_key role_key}]
+set export_vars [export_vars -form {workflow_key role_key}]
 
 ad_return_template

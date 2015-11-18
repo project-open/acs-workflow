@@ -37,7 +37,7 @@ set reassign_p [im_permission $user_id wf_reassign_tasks]
 <if @task.state@ eq enabled and @approval_task_p@ ne 1>
     <if @task.this_user_is_assigned_p@ eq 1>
         <form action="@task.action_url@" method="post">
-	@export_form_vars;noquote@
+	@export_vars;noquote@
 	<table>
 	<tr><th align="right">#acs-workflow.Action_1#</th>
 	<td><input type="submit" name="action.start" value="Start task" /></td>
@@ -96,7 +96,7 @@ set reassign_p [im_permission $user_id wf_reassign_tasks]
 <if @task.state@ eq started or @approval_task_p@>
     <if @task.this_user_is_assigned_p@ eq 1>
         <form action="task" method="post">
-        @export_form_vars;noquote@
+        @export_vars;noquote@
         <table>
         
             <multiple name="task_roles_to_assign">
