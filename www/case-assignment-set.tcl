@@ -36,7 +36,7 @@ and workflow_key = :workflow_key" -default ""]
 
 set context [list [list "case?[export_vars -url {{case_id $case(case_id)}}]" "$case(object_name) case"] "Assign $role_name"]
 
-set export_vars [export_form_vars case_id role_key workflow_key return_url]
+set export_vars [export_vars -form {case_id role_key workflow_key return_url}]
 
 set current_assignments [db_list assignment_select "
     select party_id

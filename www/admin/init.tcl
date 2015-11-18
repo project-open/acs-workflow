@@ -26,10 +26,8 @@ db_multirow objects object {
 } 
 
 set workflow_name [db_string workflow_name "select pretty_name from acs_object_types where object_type = :workflow_key"]
-
 set context [list [list "workflow?[export_url_vars workflow_key]" "$workflow_name"] "Start case"]
-
-set export_vars [export_form_vars workflow_key]
+set export_vars [export_vars -form {workflow_key}]
 
 ad_return_template
 

@@ -23,6 +23,6 @@ set place_name [ad_quotehtml $place_name]
 
 set context [list [list "workflow?[export_url_vars workflow_key]" "$workflow_name"] [list "define?[export_url_vars workflow_key]" "Edit process"] "Edit place"]
 
-set export_vars [export_form_vars workflow_key place_key return_url]
+set export_vars [export_vars -form {workflow_key place_key return_url}]
 
 ad_return_template

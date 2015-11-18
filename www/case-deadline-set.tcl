@@ -36,7 +36,7 @@ where transition_key = :transition_key
 
 set context [list [list "case?[export_vars -url {{case_id $case(case_id)}}]" "$case(object_name) case"] "Deadline for $transition_name "]
 
-set export_vars [export_form_vars case_id transition_key workflow_key return_url]
+set export_vars [export_vars -form {case_id transition_key workflow_key return_url}]
 
 set deadline [db_string deadline_select "
     select deadline

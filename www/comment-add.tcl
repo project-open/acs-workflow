@@ -21,7 +21,7 @@ db_1row case {
 
 set context [list [list "./" "Work List"] [list "case?[export_url_vars case_id]" "Case $case(object_name)"] "Comment"]
 
-set export_form_vars [export_form_vars case_id return_url]
+set export_form_vars [export_vars -form {case_id return_url}]
 
 ad_return_template
 

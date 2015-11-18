@@ -31,7 +31,7 @@ db_1row workflow_and_transition_name {
 
 set context [list [list "workflow?[export_url_vars workflow_key]" "$workflow_name"] [list "define?[export_vars -url {workflow_key transition_key}]" "Edit process"] "Actions by $transition_name"]
 
-set export_vars [ad_export_vars -form {workflow_key transition_key context_key return_url}]
+set export_vars [export_vars -form {workflow_key transition_key context_key return_url}]
 
 set sql {
     select enable_callback,

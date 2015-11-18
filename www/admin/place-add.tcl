@@ -16,7 +16,7 @@ db_1row workflow_info {
 
 set context [list [list "workflow?[export_url_vars workflow_key]" "$workflow_name"] [list "define?[export_url_vars workflow_key]" "Edit process"] "Add place"]
 
-set export_vars [export_form_vars workflow_key]
+set export_vars [export_vars -form {workflow_key}]
 
 set num_start [db_string num_start_places { 
     select decode(count(*),0,0,1) from wf_places 

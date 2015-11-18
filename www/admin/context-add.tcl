@@ -13,6 +13,5 @@ ad_page_contract {
 }
 
 set context [list "Add Context"]
-set export_vars [export_form_vars workflow_key return_url]
-
+set export_vars [export_vars -form {workflow_key return_url}]
 ad_return_template

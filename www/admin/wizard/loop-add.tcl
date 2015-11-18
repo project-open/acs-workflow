@@ -25,7 +25,7 @@ set task_name [ad_quotehtml $task($from_transition_key,task_name)]
 
 set context [list [list "" "Simple Process Wizard"] [list "loops" "Loops"] "Add loop from $task_name"]
 
-set export_vars [export_form_vars from_transition_key]
+set export_vars [export_vars -form {from_transition_key}]
 
 template::multirow create to_transitions transition_key task_name
 

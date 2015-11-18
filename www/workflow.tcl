@@ -109,7 +109,7 @@ foreach transition $wf_info(transitions) {
 	if { [llength $selectbox_if_items] == 1 } {
 	    set selectbox_if_options "<strong>$selectbox_if_items</strong>"
 	    set loop_attribute $selectbox_if_items
-	    append selectbox_if_options [export_form_vars loop_attribute]
+	    append selectbox_if_options [export_vars -form {loop_attribute}]
 	} elseif { [llength $selectbox_if_items] > 1 } {
 	    set selectbox_if_options "<select name=loop_attribute>
 	    [ad_generic_optionlist $selectbox_if_items $selectbox_if_items]

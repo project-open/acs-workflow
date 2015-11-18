@@ -50,7 +50,7 @@ foreach possible_guard $possible_guards {
  
 
 set context [list [list "define?[export_url_vars workflow_key]" "Process Builder"] "Edit arc"]
-set export_vars [export_form_vars workflow_key transition_key place_key direction return_url]
+set export_vars [export_vars -form {workflow_key transition_key place_key direction return_url}]
 
 
 ad_return_template

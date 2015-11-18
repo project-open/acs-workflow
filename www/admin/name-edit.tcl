@@ -20,9 +20,7 @@ db_1row workflow_info {
 
 
 set context [list [list "workflow?[export_url_vars workflow_key]" "$workflow_name"] "Edit name"]
-
-set export_vars [export_form_vars workflow_key return_url]
-
+set export_vars [export_vars -form {workflow_key return_url}]
 set workflow_name [ad_quotehtml $workflow_name]
 set description [ad_quotehtml $description]
 

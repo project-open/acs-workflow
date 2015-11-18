@@ -3,7 +3,8 @@
 <property name="context">@context;noquote@</property>
 
 <form action="assign-transition-role-2" method="post">
-@export_form_vars@
+@export_form_vars;noquote@
+<!-- ToDo: Testing -->
 <table cellspacing="1" cellpadding="3" border="0">
   <tr>
     <th>#acs-workflow.Workflow#</th>

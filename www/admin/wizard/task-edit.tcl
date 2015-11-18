@@ -27,6 +27,6 @@ set task_time $task($transition_key,task_time)
 
 set context [list [list "" "Simple Process Wizard"] [list "tasks" "Tasks"] "Edit task $task($transition_key,task_name)"]
 
-set export_vars [export_form_vars transition_key]
+set export_vars [export_vars -form {transition_key}]
 
 ad_return_template
