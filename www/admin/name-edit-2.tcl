@@ -4,7 +4,7 @@ ad_page_contract {
     workflow_key:notnull
     workflow_name:notnull
     description
-    {return_url "workflow?[export_url_vars workflow_key]"}
+    {return_url "workflow?[export_vars -url { workflow_key}]"}
 }
 
 db_transaction {

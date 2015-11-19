@@ -29,7 +29,7 @@ switch $action {
 }
 
 if { ![info exists return_url] } {
-    set return_url case?[export_url_vars case_id]
+    set return_url case?[export_vars -url { case_id}]
 }
 
 ad_returnredirect $return_url

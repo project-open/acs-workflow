@@ -8,7 +8,7 @@ ad_page_contract {
     guard_callback
     guard_custom_arg
     guard_description
-    {return_url "define?[export_url_vars workflow_key transition_key]"}
+    {return_url "define?[export_vars -url { workflow_key transition_key}]"}
 }
 
 db_dml arc_update {

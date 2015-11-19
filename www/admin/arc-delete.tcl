@@ -9,7 +9,7 @@ ad_page_contract {
     transition_key
     place_key
     direction
-    {return_url "define?[export_url_vars workflow_key transition_key]"}
+    {return_url "define?[export_vars -url { workflow_key transition_key}]"}
 }
 
 wf_delete_arc \

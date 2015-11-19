@@ -36,11 +36,11 @@ switch $case(state) {
 	template::multirow append actions "case-state-change?[export_vars -url {case_id {action cancel}}]" "cancel"
     }
     suspended {
-	template::multirow append actions "case-state-change?[export_url_vars case_id]&action=resume" "resume"
-	template::multirow append actions "case-state-change?[export_url_vars case_id]&action=cancel" "cancel"
+	template::multirow append actions "case-state-change?[export_vars -url { case_id}]&action=resume" "resume"
+	template::multirow append actions "case-state-change?[export_vars -url { case_id}]&action=cancel" "cancel"
     }
     canceled {
-	template::multirow append actions "case-state-change?[export_url_vars case_id]&action=resume" "resume"
+	template::multirow append actions "case-state-change?[export_vars -url { case_id}]&action=resume" "resume"
     }
 }
 

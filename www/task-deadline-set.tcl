@@ -18,7 +18,7 @@ set write_p [ad_permission_p $task_id "write"]
 
 array set task [wf_task_info $task_id]
 
-set context [list [list "case?case_idf=$task(case_id)" "Case \"$task(object_name)\""] [list "task?[export_url_vars task_id]" "Task \"$task(task_name)\""] "Set deadline"]
+set context [list [list "case?case_idf=$task(case_id)" "Case \"$task(object_name)\""] [list "task?[export_vars -url {task_id}]" "Task \"$task(task_name)\""] "Set deadline"]
 
 set export_vars [export_vars -form {task_id return_url}]
 

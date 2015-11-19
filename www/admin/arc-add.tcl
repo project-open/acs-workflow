@@ -3,7 +3,7 @@ ad_page_contract {} {
     transition_key:notnull
     place_key:notnull
     direction:notnull
-    {return_url "define?[export_url_vars workflow_key]"}
+    {return_url "define?[export_vars -url { workflow_key}]"}
 }
 
 if { [db_string num_arcs { 

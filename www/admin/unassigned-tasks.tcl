@@ -21,7 +21,7 @@ db_1row workflow_info {
 
 set workflow(workflow_key) $workflow_key
 
-set context [list [list "workflow?[export_url_vars workflow_key]" "$workflow(pretty_name)"] "Unassigned tasks"]
+set context [list [list "workflow?[export_vars -url { workflow_key}]" "$workflow(pretty_name)"] "Unassigned tasks"]
 
 set date_format "Mon fmDDfm, YYYY HH24:MI:SS"
 

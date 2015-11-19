@@ -108,9 +108,9 @@ if { [empty_string_p $place_key] && [empty_string_p $transition_key] && \
 
 set header_stuff {}
 
-set context [list [list "workflow?[export_url_vars workflow_key]" "$workflow(pretty_name)"] "Edit process"]
+set context [list [list "workflow?[export_vars -url { workflow_key}]" "$workflow(pretty_name)"] "Edit process"]
 
-set return_url "[ns_conn url]?[export_url_vars workflow_key format transition_key place_key]"
+set return_url "[ns_conn url]?[export_vars -url { workflow_key format transition_key place_key}]"
 
 set cancel_url $return_url
 
@@ -184,8 +184,8 @@ wf_decorate_workflow \
 #####
 
 template::multirow create edit_links url title
-template::multirow append edit_links "task-add?[export_url_vars workflow_key]" "add task"
-template::multirow append edit_links "place-add?[export_url_vars workflow_key]" "add place"
+template::multirow append edit_links "task-add?[export_vars -url { workflow_key}]" "add task"
+template::multirow append edit_links "place-add?[export_vars -url { workflow_key}]" "add place"
 
 #####
 #

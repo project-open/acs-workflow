@@ -14,7 +14,7 @@ db_1row workflow_info {
     where  ot.object_type = :workflow_key
 }
 
-set context [list [list "workflow?[export_url_vars workflow_key]" "$workflow_name"] [list "define?[export_url_vars workflow_key]" "Edit process"] "Add place"]
+set context [list [list "workflow?[export_vars -url { workflow_key}]" "$workflow_name"] [list "define?[export_vars -url { workflow_key}]" "Edit process"] "Add place"]
 
 set export_vars [export_vars -form {workflow_key}]
 

@@ -7,7 +7,7 @@ ad_page_contract {
 } {
     workflow_key
     role_key
-    {return_url "define?[export_url_vars workflow_key]"}
+    {return_url "define?[export_vars -url { workflow_key}]"}
 }
 
 wf_delete_role \

@@ -35,7 +35,7 @@ db_1row workflow_and_transition_name {
     and    t.transition_key = :transition_key
 }
 
-set context [list [list "workflow?[export_url_vars workflow_key]" "$workflow_name"] [list "define?[export_vars -url {workflow_key transition_key}]" "Edit process"] "Attributes for $transition_name"]
+set context [list [list "workflow?[export_vars -url { workflow_key}]" "$workflow_name"] [list "define?[export_vars -url {workflow_key transition_key}]" "Edit process"] "Attributes for $transition_name"]
 
 set counter 0
 db_multirow attributes attributes {

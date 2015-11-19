@@ -33,7 +33,7 @@ db_1row workflow_name {
 
 set workflow_name [ad_quotehtml $workflow_name]
 
-set context [list [list "workflow?[export_url_vars workflow_key]" "$workflow_name"] "Cases"]
+set context [list [list "workflow?[export_vars -url { workflow_key}]" "$workflow_name"] "Cases"]
 
 
 #

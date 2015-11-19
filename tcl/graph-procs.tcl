@@ -129,21 +129,21 @@ ad_proc wf_decorate_workflow {
 
     switch $mode {
 	normal {
-	    set transition_link "define?[export_url_vars format mode]&"
-	    set place_link "define?[export_url_vars format mode]&"
+	    set transition_link "define?[export_vars -url { format mode}]&"
+	    set place_link "define?[export_vars -url { format mode}]&"
 	}
 	arcadd {
 	    if { ![empty_string_p $selected_place_key] } {
 		set direction in
 		set place_link {}
-		set transition_link "arc-add?[export_url_vars place_key=[ns_urlencode $selected_place_key] direction return_url]&"
+		set transition_link "arc-add?[export_vars -url { place_key=[ns_urlencode $selected_place_key] direction return_url}]&"
 		foreach loop_transition_key $workflow(arcs,place,$selected_place_key,in) {
 		    lappend nolink "transition,$loop_transition_key"
 		}
 	    } else {
 		set direction out
 		set transition_link {}
-		set place_link "arc-add?[export_url_vars transition_key=[ns_urlencode $selected_transition_key] direction return_url]&"
+		set place_link "arc-add?[export_vars -url { transition_key=[ns_urlencode $selected_transition_key] direction return_url}]&"
 		foreach loop_place_key $workflow(arcs,transition,$selected_transition_key,out) {
 		    lappend nolink "place,$loop_place_key"
 		}
@@ -153,14 +153,14 @@ ad_proc wf_decorate_workflow {
 	    if { ![empty_string_p $selected_place_key] } {
 		set direction in
 		set place_link {}
-		set transition_link "arc-delete?[export_url_vars place_key=[ns_urlencode $selected_place_key] direction return_url]&"
+		set transition_link "arc-delete?[export_vars -url { place_key=[ns_urlencode $selected_place_key] direction return_url}]&"
 		foreach loop_transition_key $workflow(arcs,place,$selected_place_key,in) {
 		    lappend onlylink "transition,$loop_transition_key"
 		}
 	    } else {
 		set direction out
 		set transition_link {}
-		set place_link "arc-delete?[export_url_vars transition_key=[ns_urlencode $selected_transition_key] direction return_url]&"
+		set place_link "arc-delete?[export_vars -url { transition_key=[ns_urlencode $selected_transition_key] direction return_url}]&"
 		foreach loop_place_key $workflow(arcs,transition,$selected_transition_key,out) {
 		    lappend onlylink "place,$loop_place_key"
 		}
@@ -190,7 +190,7 @@ ad_proc wf_decorate_workflow {
     #
     #####
 
-    # to make export_url_vars easier
+    # to make export_vars easier
     set workflow_key $workflow(workflow_key)
 
     foreach type { transition place } {
@@ -199,7 +199,7 @@ ad_proc wf_decorate_workflow {
 		set workflow($type,$key,url) [ad_decode \
 			[set ${type}_link] \
 			"" "" \
-			"[set ${type}_link][export_url_vars workflow_key ${type}_key=[ns_urlencode $key]]"]
+			"[set ${type}_link][export_vars -url { workflow_key ${type}_key=[ns_urlencode $key]}]"]
 	    } else {
 		set workflow($type,$key,url) {}
 	    }
@@ -211,7 +211,7 @@ ad_proc wf_decorate_workflow {
 	set workflow($key,url) [ad_decode \
 		[set ${type}_link] \
 		"" "" \
-		"[set ${type}_link][export_url_vars workflow_key ${type}_key=[ns_urlencode ${type_key}]]"]
+		"[set ${type}_link][export_vars -url { workflow_key ${type}_key=[ns_urlencode ${type_key}]}]"]
     }
     foreach key $nolink {
 	set workflow($key,url) {}

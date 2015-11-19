@@ -3,7 +3,7 @@ ad_page_contract {
 } {
     workflow_key
     place_key
-    {return_url "define?[export_url_vars workflow_key]"}
+    {return_url "define?[export_vars -url { workflow_key}]"}
 }
 
 db_transaction {

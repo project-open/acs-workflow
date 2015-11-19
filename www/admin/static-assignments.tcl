@@ -26,7 +26,7 @@ db_1row workflow_name {
     where  object_type = :workflow_key
 }
 
-set context [list [list "workflow?[export_url_vars workflow_key]" "$workflow_name"] "Static Assignments"]
+set context [list [list "workflow?[export_vars -url { workflow_key}]" "$workflow_name"] "Static Assignments"]
 
 
 db_multirow context_slider context_slider {

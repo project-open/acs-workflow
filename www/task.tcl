@@ -45,7 +45,7 @@ if { [llength $the_action] > 1 } {
     if {"finish" == $the_action} { ad_returnredirect $return_url }
 
     # Otherwise go back to the tasks's page
-    ad_returnredirect "task?[export_url_vars task_id return_url]"
+    ad_returnredirect "task?[export_vars -url {task_id return_url}]"
 
     ad_script_abort
 }
@@ -76,7 +76,7 @@ if {[catch {
     return
 }
 
-set task(add_assignee_url) "assignee-add?[export_url_vars task_id]"
+set task(add_assignee_url) "assignee-add?[export_vars -url {task_id}]"
 set task(assign_yourself_url) "assign-yourself?[export_vars -url {task_id {return_url $current_url}}]"
 set task(manage_assignments_url) "task-assignees?[export_vars -url {task_id {return_url $current_url}}]"
 set task(cancel_url) "task?[export_vars -url {task_id return_url {action.cancel Cancel}}]"
@@ -147,8 +147,8 @@ set wf_cancel_case_p [permission::permission_p -party_id $user_id -object_id [ad
 if { [string compare $case_state "active"] == 0 && ($wf_suspend_case_p || $wf_cancel_case_p) } {
     set extreme_p 1
     template::multirow create extreme_actions url title
-    if { $wf_suspend_case_p } { template::multirow append extreme_actions "case-state-change?[export_url_vars case_id]&action=suspend" [lang::message::lookup "" intranet-workflow.Suspend_Case "Suspend Case"]}
-    if { $wf_cancel_case_p } { template::multirow append extreme_actions "case-state-change?[export_url_vars case_id]&action=cancel" [lang::message::lookup "" intranet-workflow.Cancel_Case "Cancel Case"]}
+    if { $wf_suspend_case_p } { template::multirow append extreme_actions "case-state-change?[export_vars -url {case_id}]&action=suspend" [lang::message::lookup "" intranet-workflow.Suspend_Case "Suspend Case"]}
+    if { $wf_cancel_case_p } { template::multirow append extreme_actions "case-state-change?[export_vars -url {case_id}]&action=cancel" [lang::message::lookup "" intranet-workflow.Cancel_Case "Cancel Case"]}
 }
  
 # ---------------------------------------------------------

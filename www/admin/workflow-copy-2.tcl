@@ -61,7 +61,7 @@ db_1row workflow_info {
 ReturnHeaders
 ns_write "[ad_header "Copying Process..."]
 <h2>Copying Process...</h2>
-[ad_context_bar [list "workflow?[export_url_vars workflow_key]" "$workflow_name"] "Copy process"]
+[ad_context_bar [list "workflow?[export_vars -url { workflow_key}]" "$workflow_name"] "Copy process"]
 <hr>
 
 <pre>

@@ -3,7 +3,7 @@ ad_page_contract {
 } {
     task_id:integer
     party_id:integer
-    {return_url "task?[export_url_vars task_id]"}
+    {return_url "task?[export_vars -url { task_id}]"}
 }
 
 # ------------------------------------------------------------

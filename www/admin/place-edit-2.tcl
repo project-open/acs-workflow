@@ -5,7 +5,7 @@ ad_page_contract {
     place_key
     place_name
     {sort_order:integer ""}
-    {return_url "define?[export_url_vars workflow_key place_key]"}
+    {return_url "define?[export_vars -url { workflow_key place_key}]"}
 }
 
 db_dml place_update {

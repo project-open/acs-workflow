@@ -51,7 +51,7 @@ foreach transition $wf_info(transitions) {
     doc_body_append "
     <tr bgcolor=$bgcolor>
     <td align=center><strong>$task_num.</strong></td>
-    <td><a href=\"transition-edit?[export_url_vars transition_key]\">$trans(transition_name)</a></td>
+    <td><a href=\"transition-edit?[export_vars -url {transition_key}]\">$trans(transition_name)</a></td>
     "
 
     # the attributes which the loop can depend on (the '..if' part)
@@ -64,7 +64,7 @@ foreach transition $wf_info(transitions) {
 	array set attr $attribute
 
 	set attribute_name $attr(attribute_name)
-	append attribute_display "<a href=\"attribute-edit?[export_url_vars attribute_name]\">$attr(attribute_name)</a><br>"
+	append attribute_display "<a href=\"attribute-edit?[export_vars -url {attribute_name}]\">$attr(attribute_name)</a><br>"
 	lappend selectbox_if_items $attr(attribute_name)
     }
 

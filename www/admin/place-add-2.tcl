@@ -65,6 +65,6 @@ db_dml place_add {
     
 wf_workflow_changed $workflow_key
 
-ad_returnredirect "define?[export_url_vars workflow_key place_key]"
+ad_returnredirect "define?[export_vars -url { workflow_key place_key}]"
 
 

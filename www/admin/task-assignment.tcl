@@ -38,7 +38,7 @@ db_1row workflow_and_transition_name {
     and    t.transition_key = :transition_key
 }
 
-set context [list [list "workflow?[export_url_vars workflow_key]" "$workflow_name"] [list "define?[export_vars -url {workflow_key transition_key}]" "Edit process"] "Assignments by $transition_name"]
+set context [list [list "workflow?[export_vars -url { workflow_key}]" "$workflow_name"] [list "define?[export_vars -url {workflow_key transition_key}]" "Edit process"] "Assignments by $transition_name"]
 
 db_multirow assigned_by_this assigned_by_this {
     select r.role_name,

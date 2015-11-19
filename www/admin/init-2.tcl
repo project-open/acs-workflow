@@ -8,4 +8,4 @@ ad_page_contract {
 
 wf_case_new $workflow_key $context_key $object_id
 
-ad_returnredirect "workflow?[export_url_vars workflow_key]"
+ad_returnredirect "workflow?[export_vars -url { workflow_key}]"

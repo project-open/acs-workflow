@@ -16,7 +16,7 @@ db_1row workflow_info {
 }
 
 
-set context [list [list "workflow?[export_vars -url {workflow_key}]" "$workflow_name"] [list "define?[export_url_vars workflow_key]" "Edit process"] "Add task"]
+set context [list [list "workflow?[export_vars -url {workflow_key}]" "$workflow_name"] [list "define?[export_vars -url { workflow_key}]" "Edit process"] "Add task"]
 
 set export_vars [export_vars -form {workflow_key return_url}]
 

@@ -75,4 +75,4 @@ db_transaction {
 
 
 
-ad_returnredirect "define?[export_url_vars workflow_key]"
+ad_returnredirect "define?[export_vars -url { workflow_key}]"

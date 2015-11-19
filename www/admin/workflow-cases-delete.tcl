@@ -6,7 +6,7 @@ ad_page_contract {
     @cvs-id $Id$
 } {
     workflow_key:notnull
-    {return_url "workflow?[export_url_vars workflow_key]"}
+    {return_url "workflow?[export_vars -url { workflow_key}]"}
 } -validate {
     workflow_exists -requires {workflow_key} {
 	if ![db_string workflow_exists "

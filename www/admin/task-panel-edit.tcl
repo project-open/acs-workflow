@@ -19,7 +19,7 @@ ad_page_contract {
 
 db_1row workflow_and_transition_name {}
 
-set context [list [list "workflow?[export_url_vars workflow_key]" "$workflow_name"] "Edit panel"]
+set context [list [list "workflow?[export_vars -url { workflow_key}]" "$workflow_name"] "Edit panel"]
 
 db_1row panel {} -column_array panel
 
