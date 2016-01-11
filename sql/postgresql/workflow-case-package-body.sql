@@ -1206,7 +1206,7 @@ declare
 	v_token_id                        integer;
 	v_workflow_key                    varchar;
 begin
-	select wf_token_id_seq.nextval into v_token_id from dual;
+	select nextval('t_wf_token_id_seq') into v_token_id from dual;
 	
 	select workflow_key into v_workflow_key 
 	from   wf_cases c 
@@ -1844,7 +1844,7 @@ begin
 
 
 		/* we are ready to insert the row */
-		select wf_task_id_seq.nextval into v_task_id from dual;
+		select nextval('t_wf_task_id_seq') into v_task_id from dual;
 
 		insert into wf_tasks (
 			task_id, case_id, workflow_key, transition_key, 
