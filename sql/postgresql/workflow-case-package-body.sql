@@ -1000,7 +1000,7 @@ begin
 	if execute_time_callback__callback = '' or execute_time_callback__callback is null then
 		return null;
 	end if;
- 
+
 	v_str := 'select ' || execute_time_callback__callback || '(' || 
 		 execute_time_callback__case_id || ',' || 
 		 quote_literal(execute_time_callback__transition_key) || ',' || 
@@ -1214,8 +1214,7 @@ begin
 	  
 	insert into wf_tokens 
 		(token_id, case_id, workflow_key, place_key, state, produced_journal_id)
-	values 
-		(v_token_id, add_token__case_id, v_workflow_key, add_token__place_key, 
+	values	(v_token_id, add_token__case_id, v_workflow_key, add_token__place_key, 
 		'free', add_token__journal_id);
 
 	return 0; 
