@@ -116,6 +116,11 @@ ad_proc wf_decorate_workflow {
 } {
     upvar 1 $workflow_varname workflow
 
+#     ad_return_complaint xx [array get workflow]
+#    foreach {key value} [array get workflow] {
+#	ds_comment "key: $key, value: $value"
+#    }
+
     #####
     #
     # Establish links for the graph
@@ -129,7 +134,8 @@ ad_proc wf_decorate_workflow {
 
     switch $mode {
 	normal {
-	    set transition_link "define?[export_vars -url { format mode}]&"
+	    # set transition_key $workflow(transition,$transition_key,transition_key)
+	    set transition_link "define?[export_vars -url { format mode transition_key}]&"
 	    set place_link "define?[export_vars -url { format mode}]&"
 	}
 	arcadd {
@@ -196,10 +202,19 @@ ad_proc wf_decorate_workflow {
     foreach type { transition place } {
 	foreach key $workflow(${type}s) {
 	    if { [empty_string_p $onlylink] } {
+
+		# set workflow($type,$key,url) [ad_decode \
+		#	[set ${type}_link] \
+		#	"" "" \
+		#	"[set ${type}_link][export_vars -url { workflow_key ${type}_key=[ns_urlencode $key]}]"]
+
+		eval "set ${type}_key [ns_urlencode $key]"
+		set par [list]
+		lappend par workflow_key "${type}_key"
 		set workflow($type,$key,url) [ad_decode \
 			[set ${type}_link] \
 			"" "" \
-			"[set ${type}_link][export_vars -url { workflow_key ${type}_key=[ns_urlencode $key]}]"]
+			"[set ${type}_link][export_vars -url $par]"]
 	    } else {
 		set workflow($type,$key,url) {}
 	    }
