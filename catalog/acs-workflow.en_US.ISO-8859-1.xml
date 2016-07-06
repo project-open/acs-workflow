@@ -29,6 +29,7 @@
   <msg key="add_role">add role</msg>
   <msg key="Add_Task">Add Task</msg>
   <msg key="add_transition">add transition</msg>
+  <msg key="Admin_Workflows">Admin Workflows</msg>
   <msg key="Administer">Administer</msg>
   <msg key="All_Attributes">All Attributes</msg>
   <msg key="All_Tasks">All Tasks</msg>
@@ -49,9 +50,9 @@
   <msg key="cancel">cancel</msg>
   <msg key="cancel_task">cancel task</msg>
   <msg key="Canceled">Canceled</msg>
-  <msg key="cant_add_arc">(can't add arc)</msg>
-  <msg key="cant_delete_arc">(can't delete arc)</msg>
-  <msg key="cant_delete_place">(can't delete place)</msg>
+  <msg key="cant_add_arc">(can&#39;t add arc)</msg>
+  <msg key="cant_delete_arc">(can&#39;t delete arc)</msg>
+  <msg key="cant_delete_place">(can&#39;t delete place)</msg>
   <msg key="Case">Case</msg>
   <msg key="Case_started">Case started</msg>
   <msg key="Cases">Cases</msg>
@@ -104,7 +105,7 @@
   <msg key="Guard_condition">Guard condition</msg>
   <msg key="Header">Header</msg>
   <msg key="Held_by">Held by</msg>
-  <msg key="Hit_Next_when_youre">Hit Next when you're</msg>
+  <msg key="Hit_Next_when_youre">Hit Next when you&#39;re</msg>
   <msg key="Hold_Timeout">Hold Timeout</msg>
   <msg key="Holder">Holder</msg>
   <msg key="Initialize_Case">Initialize Case</msg>
@@ -125,18 +126,18 @@
 you can start with the Advanced Process Builder right away.</msg>
   <msg key="lt__so_you_probably_want">, so you probably want to</msg>
   <msg key="lt__such_as____Approved_">, such as
-    'Approved?'. Depending on the answer, we'll go to either
-    '%loop_to_task_name%' or %loop_next_pretty%.</msg>
-  <msg key="lt__Thats_barely____enou">. That's barely
+    &#39;Approved?&#39;. Depending on the answer, we&#39;ll go to either
+    &#39;%loop_to_task_name%&#39; or %loop_next_pretty%.</msg>
+  <msg key="lt__Thats_barely____enou">. That&#39;s barely
     enough to call a</msg>
   <msg key="lt__The____way_it_works_">. The
-    way it works is that we'll ask the user some question, to which he
-    answers yes or no. If he answers yes, we'll go back to the same task again,
-    if he answers no, we'll continue to finish the process&amp;#151;or
+    way it works is that we&#39;ll ask the user some question, to which he
+    answers yes or no. If he answers yes, we&#39;ll go back to the same task again,
+    if he answers no, we&#39;ll continue to finish the process&amp;#151;or
     vice versa. You get to decide that.</msg>
   <msg key="lt_A_guard_is_some_condi">A guard is some condition that must be satisfied for a token to travel over that arc.</msg>
   <msg key="lt_A_loop_always_goes_ba">A loop always goes back to some</msg>
-  <msg key="lt_add_a_loop_from_loop_">add a loop from '%loop_from_task_name%' back to itself</msg>
+  <msg key="lt_add_a_loop_from_loop_">add a loop from &#39;%loop_from_task_name%&#39; back to itself</msg>
   <msg key="lt_Add_assignee_tasksuse">Add assignee: %tasks.user_select_widget%</msg>
   <msg key="lt_add_export_varsnoquot">%add_export_vars;noquote%
 	Set this:</msg>
@@ -179,9 +180,9 @@ you can start with the Advanced Process Builder right away.</msg>
   <msg key="lt_graphic_process_edito">graphic process editor</msg>
   <msg key="lt_held_by_task_live_tok">(held by task %live_tokens.locked_task_id%)</msg>
   <msg key="lt_Here_are_some_logic_a">Here are some logic and aids for the approval.</msg>
-  <msg key="lt_Heres_some_informatio">Here's some information about the expense claim.</msg>
-  <msg key="lt_If_the_user_answers_w">(If the user answers what you specify here, we'll loop back. If he choses the other answer, we'll continue with the next task.)</msg>
-  <msg key="lt_If_you_insist_that_yo">If you insist that you only want one task, that's fine. You can
+  <msg key="lt_Heres_some_informatio">Here&#39;s some information about the expense claim.</msg>
+  <msg key="lt_If_the_user_answers_w">(If the user answers what you specify here, we&#39;ll loop back. If he choses the other answer, we&#39;ll continue with the next task.)</msg>
+  <msg key="lt_If_you_insist_that_yo">If you insist that you only want one task, that&#39;s fine. You can
     even</msg>
   <msg key="lt_If_you_want_to_create">If you want to create more advanced processes, you can either start
 here and add flexibility later using the</msg>
@@ -190,12 +191,12 @@ a new application (for a job applicant management application) is created, we au
 a business process case for that object.</msg>
   <msg key="lt_In_the_list_below_hit">In the list below, hit add loop on</msg>
   <msg key="lt_in_the_process_eg_fro">in the process, e.g. from
-    '%loop_from_task_name%' to '%loop_to_task_name%'. Whether we loop back
-    to '%loop_to_task_name%' or go forward to %loop_next_pretty% is up to
-    the person performing '%loop_from_task_name%'.</msg>
+    &#39;%loop_from_task_name%&#39; to &#39;%loop_to_task_name%&#39;. Whether we loop back
+    to &#39;%loop_to_task_name%&#39; or go forward to %loop_next_pretty% is up to
+    the person performing &#39;%loop_from_task_name%&#39;.</msg>
   <msg key="lt_Loop_back_if_answer_i">Loop back if answer is</msg>
   <msg key="lt_loopto_transition_key">loop.to_transition_key</msg>
-  <msg key="lt_make_it_a_yesno-quest">(make it a yes/no-question, e.g. &quot;Approved&quot;)</msg>
+  <msg key="lt_make_it_a_yesno-quest">(make it a yes/no-question, e.g. &#34;Approved&#34;)</msg>
   <msg key="lt_Manually_Assign_role_">Manually Assign %role_name;noquote%</msg>
   <msg key="lt_No_attributes_defined">No attributes defined</msg>
   <msg key="lt_no_business_processes">no business processes installed</msg>
@@ -237,8 +238,8 @@ a business process case for that object.</msg>
   <msg key="lt_that_go_back_to_a_pre">that go back to a previous task. Finally, you can
 set up the</msg>
   <msg key="lt_The_first_step_in_def">The first step in defining a new process is to give it a name and an
-optional description.  Examples of good names are &quot;marketing
-interview&quot;, &quot;article publication&quot; or &quot;expenses approval&quot;.</msg>
+optional description.  Examples of good names are &#34;marketing
+interview&#34;, &#34;article publication&#34; or &#34;expenses approval&#34;.</msg>
   <msg key="lt_The_first_step_is_to_">The first step is to give a</msg>
   <msg key="lt_the_SQL_script_in_you">the SQL script in your browser</msg>
   <msg key="lt_the_task_you_want_to_">the task you want to loop
@@ -259,7 +260,7 @@ you can add</msg>
 business process.</msg>
   <msg key="lt_token_in_place_live_t">token in place %live_tokens.place_key% (%live_tokens.state%)</msg>
   <msg key="lt_Until_we_make_that_ha">Until we make that happen, this is the way to start a new case.  Just
-select a random object ... we just use it to tell the user what he's
+select a random object ... we just use it to tell the user what he&#39;s
 working on.</msg>
   <msg key="lt_view_or_alter_the_def">view or alter the definition</msg>
   <msg key="lt_workflow_name_-_trans">%workflow_name% - %transition_name% - Task Actions</msg>
@@ -273,7 +274,7 @@ working on.</msg>
   <msg key="lt_workflowworkflow_name">workflow.workflow_name</msg>
   <msg key="lt_You_canceled_this_tas">You canceled this task on %task.canceled_date_pretty%.</msg>
   <msg key="lt_You_finished_this_tas">You finished this task on %task.finished_date_pretty%.</msg>
-  <msg key="lt_You_havent_defined_an">You haven't defined any tasks yet. 
+  <msg key="lt_You_havent_defined_an">You haven&#39;t defined any tasks yet. 
     Please</msg>
   <msg key="lt_You_new_business_proc">You new business process has been created.</msg>
   <msg key="make_a_copy">make a copy</msg>
@@ -397,6 +398,8 @@ working on.</msg>
   <msg key="will_be_asked_to">will be asked to</msg>
   <msg key="Work_List">Work List</msg>
   <msg key="Workflow">Workflow</msg>
+  <msg key="Workflow_Cases">Workflow Cases</msg>
+  <msg key="Workflows">Workflows</msg>
   <msg key="www">/www/</msg>
   <msg key="Yes">Yes</msg>
   <msg key="Yes_1">/&gt;Yes</msg>
