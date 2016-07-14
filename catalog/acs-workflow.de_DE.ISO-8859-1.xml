@@ -12,7 +12,7 @@
   <msg key="Activated_Date">Datum Aktivierung</msg>
   <msg key="Active_Tasks">Aktive Aufgaen</msg>
   <msg key="Add">Neu</msg>
-  <msg key="add_arc">Neuer Pfeil</msg>
+  <msg key="add_arc">Neue Kante</msg>
   <msg key="Add_Assignee">Neue Zuweisung</msg>
   <msg key="Add_attribute">Neues Attribut</msg>
   <msg key="add_attribute">Neues Attribut</msg>
@@ -50,8 +50,8 @@
   <msg key="cancel">abbrechen</msg>
   <msg key="cancel_task">Aufgabe abbrechen</msg>
   <msg key="Canceled">Abgebrochen</msg>
-  <msg key="cant_add_arc">(kann keinen neuen Bogen hinzufügen)</msg>
-  <msg key="cant_delete_arc">(kann Bogen nicht löschen)</msg>
+  <msg key="cant_add_arc">(kann keinen neue Kante hinzufügen)</msg>
+  <msg key="cant_delete_arc">(kann Kante nicht löschen)</msg>
   <msg key="cant_delete_place">(kann Platz nicht löschen)</msg>
   <msg key="Case">Fall</msg>
   <msg key="Case_started">Fall starten</msg>
@@ -75,7 +75,7 @@
   <msg key="Default_value">Vorlage Wert</msg>
   <msg key="delete">löschen</msg>
   <msg key="delete_all_cases">alle Fälle löschen</msg>
-  <msg key="delete_arc">Bogen löschen</msg>
+  <msg key="delete_arc">Kante löschen</msg>
   <msg key="delete_guard">Wächter löschen</msg>
   <msg key="delete_place">Platz löschen</msg>
   <msg key="delete_task">Aufgabe löschen</msg>
@@ -89,7 +89,7 @@
   <msg key="Edit">Ändern</msg>
   <msg key="edit">editieren</msg>
   <msg key="Edit_1">Bearbeiten</msg>
-  <msg key="Edit_Arc">Bogen bearbeiten</msg>
+  <msg key="Edit_Arc">Kante bearbeiten</msg>
   <msg key="edit_guard">Wächter bearbeiten</msg>
   <msg key="edit_name">Name bearbeiten</msg>
   <msg key="Edit_panel">Panel bearbeiten</msg>
