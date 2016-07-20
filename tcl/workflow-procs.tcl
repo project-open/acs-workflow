@@ -1869,21 +1869,29 @@ ad_proc wf_sweep_message_transition_tcl {} {
 	# Execute the TCL commands and initiate events.
 	db_foreach sweep_message_transition_tcl $sweep_sql {
 
+	    # Found a transition to sweep - loop again, 
+	    # because there could be new tasks open after executing $tcl_call
+	    set found_transition_p 1
+
 	    set error_msg "successful"
 	    ns_log Notice "wf_sweep_message_transition_tcl: executing '$tcl_call' ..."
 	    if {[catch {
 		eval $tcl_call
 		ns_log Notice "wf_sweep_message_transition_tcl: ... successful"
-		# Advance the message transition
-		wf_message_transition_fire $task_id
-
-		# Found a transition to sweep - loop again
-		set found_transition_p 1
-
 	    } errmsg]} {
-		ns_log Notice "wf_sweep_message_transition_tcl: ... error: $errmsg"
+		ns_log Error "wf_sweep_message_transition_tcl: ... error: $errmsg"
 		set error_msg $errmsg
+
+		# Send out a notification to the admin that the transition gave an error
+		set message "workflow: $workflow_key\ntransition: $transition_key\ncase_id: $case_id\nerror_msg: \n$errmsg"
+		im_send_alert_to_system_owner "Error in Workflow TCL Callback: $tcl_call" $message
 	    }
+
+	    # Advance the message transition in either case (error or not)
+	    # So a failing TCL call will not block the entire workflow
+	    # leading to ugly hanging or unassigned transitions.
+	    wf_message_transition_fire $task_id
+
 	    wf_new_journal -case_id $case_id -action "task $task_id tcl enable" -action_pretty "Enable TCL task $task_id: '$tcl_call'" -message "TCL call '$tcl_call' returned: '$errmsg'"
 	}
 
