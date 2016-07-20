@@ -1869,9 +1869,6 @@ ad_proc wf_sweep_message_transition_tcl {} {
 	# Execute the TCL commands and initiate events.
 	db_foreach sweep_message_transition_tcl $sweep_sql {
 
-	    # Found a transition to sweep - loop again
-	    set found_transition_p 1
-
 	    set error_msg "successful"
 	    ns_log Notice "wf_sweep_message_transition_tcl: executing '$tcl_call' ..."
 	    if {[catch {
@@ -1879,6 +1876,10 @@ ad_proc wf_sweep_message_transition_tcl {} {
 		ns_log Notice "wf_sweep_message_transition_tcl: ... successful"
 		# Advance the message transition
 		wf_message_transition_fire $task_id
+
+		# Found a transition to sweep - loop again
+		set found_transition_p 1
+
 	    } errmsg]} {
 		ns_log Notice "wf_sweep_message_transition_tcl: ... error: $errmsg"
 		set error_msg $errmsg
