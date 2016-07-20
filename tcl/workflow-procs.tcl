@@ -1887,12 +1887,12 @@ ad_proc wf_sweep_message_transition_tcl {} {
 		im_send_alert_to_system_owner "Error in Workflow TCL Callback: $tcl_call" $message
 	    }
 
+	    wf_new_journal -case_id $case_id -action "task $task_id tcl enable" -action_pretty "Enable TCL task $task_id: '$tcl_call'" -message "TCL call '$tcl_call' returned: '$errmsg'"
+
 	    # Advance the message transition in either case (error or not)
 	    # So a failing TCL call will not block the entire workflow
 	    # leading to ugly hanging or unassigned transitions.
 	    wf_message_transition_fire $task_id
-
-	    wf_new_journal -case_id $case_id -action "task $task_id tcl enable" -action_pretty "Enable TCL task $task_id: '$tcl_call'" -message "TCL call '$tcl_call' returned: '$errmsg'"
 	}
 
     }
