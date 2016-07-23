@@ -29,8 +29,8 @@
   <msg key="add_role">Neue Rolle</msg>
   <msg key="Add_Task">Neue Aufgabe</msg>
   <msg key="add_transition">Neue Transition</msg>
-  <msg key="Admin_Workflows">Administration Workflows</msg>
-  <msg key="Administer">Administration</msg>
+  <msg key="Admin_Workflows">Admin Workflows</msg>
+  <msg key="Administer">Admin</msg>
   <msg key="All_Attributes">Alle Attribute</msg>
   <msg key="All_Tasks">Alle Aufgaben</msg>
   <msg key="and_an">und ein</msg>
@@ -148,7 +148,7 @@
   <msg key="lt_at_taskfinished_date_">am %task.finished_date_pretty%</msg>
   <msg key="lt_Attributes_for_workfl">Attribute für %workflow_name;noquote%</msg>
   <msg key="lt_Attributes_to_be_set_">Attribute, die durch %transition_name;noquote% gesetzt werden</msg>
-  <msg key="lt_Business_Process_Admi">Business Prozess Administration</msg>
+  <msg key="lt_Business_Process_Admi">Admin Business Prozesse</msg>
   <msg key="lt_Business_Processes_on">Business Prozesse auf diesem System</msg>
   <msg key="lt_Case_caseobject_namen">Fall: %case.object_name;noquote% (%case.state;noquote%)</msg>
   <msg key="lt_caseobject_namenoquot">%case.object_name;noquote% Fristen</msg>
