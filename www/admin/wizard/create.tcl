@@ -67,7 +67,7 @@ set workflow_cases_table [wf_make_unique -maxlen 30 \
 	$workflow_key "_cases"]
 
 set workflow_cases_constraint [wf_make_unique -maxlen 30 \
-	-taken_names [db_list constraints "select constraint_name from user_constraints"] \
+	-taken_names [db_list constraints ""] \
 	$workflow_cases_table "_case_fk"]
 
 

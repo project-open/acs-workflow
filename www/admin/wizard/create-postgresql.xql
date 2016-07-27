@@ -42,7 +42,7 @@
 <fullquery name="constraints">      
       <querytext>
 
-        select tgconstrname::text from pg_trigger
+        select conname from pg_constraint
 
       </querytext>
 </fullquery>
