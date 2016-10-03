@@ -48,9 +48,9 @@ template::multirow create input_places place_key place_name url arc_delete_url
 
 set direction "in"
 foreach loop_place_key $workflow(arcs,transition,$transition_key,in) {
-    set url "define?[export_vars -url { workflow_key place_key=[ns_urlencode $loop_place_key] format}]"
+    set url [export_vars -base "define" { workflow_key {place_key $loop_place_key} format}]
     if { $modifiable_p } {
-	set arc_delete_url "arc-delete?[export_vars -url {workflow_key transition_key place_key=[ns_urlencode $loop_place_key] direction return_url}]"
+	set arc_delete_url [export_vars -base "arc-delete" {workflow_key transition_key {place_key $loop_place_key} direction return_url}]
     } else {
 	set arc_delete_url ""
     }
@@ -65,19 +65,22 @@ template::multirow create output_places place_key place_name url arc_delete_url 
 
 set direction "out"
 foreach loop_place_key $workflow(arcs,transition,$transition_key,out) {
-    set url "define?[export_vars -url { workflow_key place_key=[ns_urlencode $loop_place_key] format}]"
+    set url [export_vars -base "define" {workflow_key {place_key $loop_place_key} format}]
     if { $modifiable_p } {
-	# ToDo: test: palace_key=[...]
-	set arc_delete_url "arc-delete?[export_vars -url { workflow_key transition_key place_key=[ns_urlencode $loop_place_key] direction return_url}]"
+	set arc_delete_url [export_vars -base "arc-delete" { workflow_key transition_key {place_key $loop_place_key} direction return_url}]
     } else {
 	set arc_delete_url ""
     }
     set guard_pretty [ad_decode $workflow(arc,$transition_key,$loop_place_key,out,guard_description) \
 	    "" $workflow(arc,$transition_key,$loop_place_key,out,guard_callback) \
 	    $workflow(arc,$transition_key,$loop_place_key,out,guard_description)]
-    set guard_edit_url "arc-edit?[export_vars -url { workflow_key transition_key place_key=[ns_urlencode $loop_place_key] direction return_url}]"
-    set guard_delete_url "arc-edit-2?[export_vars -url { workflow_key transition_key place_key=[ns_urlencode $loop_place_key] direction return_url}]&guard_callback=&guard_custom_arg=&guard_description="
-    set guard_add_url "arc-edit?[export_vars -url { workflow_key transition_key place_key=[ns_urlencode $loop_place_key] direction return_url}]"
+
+    set guard_edit_url [export_vars -base "arc-edit" {workflow_key transition_key {place_key $loop_place_key} direction return_url}]
+
+    set guard_delete_url [export_vars -base "arc-edit-2" {workflow_key transition_key {place_key $loop_place_key} direction return_url {guard_callback ""} {guard_custom_arg ""} {guard_description ""}}]
+
+    set guard_add_url [export_vars -base "arc-edit" {workflow_key transition_key {place_key $loop_place_key} direction return_url}]
+
     template::multirow append output_places $loop_place_key $workflow(place,$loop_place_key,place_name) $url $arc_delete_url \
 	    $guard_pretty $guard_edit_url $guard_delete_url $guard_add_url
 }

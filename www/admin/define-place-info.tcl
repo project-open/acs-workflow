@@ -46,18 +46,18 @@ template::multirow create producing_transitions transition_key transition_name u
 
 set direction "out"
 foreach loop_transition_key $workflow(arcs,place,$place_key,out) {
-    set url "define?[export_vars -url { workflow_key transition_key=[ns_urlencode $loop_transition_key] format}]"
+    set url [export_vars -base "define" { workflow_key {transition_key $loop_transition_key} format}]
     if { $modifiable_p } {
-	set arc_delete_url "arc-delete?[export_vars -url { workflow_key transition_key=[ns_urlencode $loop_transition_key] place_key direction return_url}]"
+	set arc_delete_url [export_vars -base "arc-delete" { workflow_key {transition_key $loop_transition_key} place_key direction return_url}]
     } else {
 	set arc_delete_url ""
     }
     set guard_pretty [ad_decode $workflow(arc,$loop_transition_key,$place_key,out,guard_description) \
 	    "" $workflow(arc,$loop_transition_key,$place_key,out,guard_callback) \
 	    $workflow(arc,$loop_transition_key,$place_key,out,guard_description)]
-    set guard_edit_url "arc-edit?[export_vars -url { workflow_key transition_key=[ns_urlencode $loop_transition_key] place_key direction return_url}]"
-    set guard_delete_url "arc-edit-2?[export_vars -url { workflow_key transition_key=[ns_urlencode $loop_transition_key] place_key direction return_url}]&guard_callback=&guard_custom_arg=&guard_description="
-    set guard_add_url "arc-edit?[export_vars -url { workflow_key transition_key=[ns_urlencode $loop_transition_key] place_key direction return_url}]"
+    set guard_edit_url [export_vars -base "arc-edit" { workflow_key {transition_key $loop_transition_key} place_key direction return_url}]
+    set guard_delete_url [export_vars -base "arc-edit-2" { workflow_key {transition_key $loop_transition_key} place_key direction return_url {guard_callback ""} {guard_custom_arg ""} {guard_description ""}}]
+    set guard_add_url [export_vars -base "arc-edit" { workflow_key {transition_key $loop_transition_key} place_key direction return_url}]
     
     template::multirow append producing_transitions $loop_transition_key \
 	    $workflow(transition,$loop_transition_key,transition_name) $url $arc_delete_url \
@@ -70,9 +70,9 @@ template::multirow create consuming_transitions transition_key transition_name u
 
 set direction "in"
 foreach loop_transition_key $workflow(arcs,place,$place_key,in) {
-    set url "define?[export_vars -url { workflow_key transition_key=[ns_urlencode $loop_transition_key] format}]"
+    set url [export_vars -base "define" { workflow_key {transition_key $loop_transition_key} format}]
     if { $modifiable_p } {
-	set arc_delete_url "arc-delete?[export_vars -url { workflow_key transition_key=[ns_urlencode $loop_transition_key] place_key direction return_url}]"
+	set arc_delete_url [export_vars -base "arc-delete" {workflow_key {transition_key $loop_transition_key} place_key direction return_url}]
     } else {
 	set arc_delete_url ""
     }

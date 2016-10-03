@@ -142,14 +142,14 @@ ad_proc wf_decorate_workflow {
 	    if { ![empty_string_p $selected_place_key] } {
 		set direction in
 		set place_link {}
-		set transition_link "arc-add?[export_vars -url { place_key=[ns_urlencode $selected_place_key] direction return_url}]&"
+		set transition_link "[export_vars -base "arc-add" { {place_key $selected_place_key} direction return_url}]&"
 		foreach loop_transition_key $workflow(arcs,place,$selected_place_key,in) {
 		    lappend nolink "transition,$loop_transition_key"
 		}
 	    } else {
 		set direction out
 		set transition_link {}
-		set place_link "arc-add?[export_vars -url { transition_key=[ns_urlencode $selected_transition_key] direction return_url}]&"
+		set place_link "[export_vars -base "arc-add" { {transition_key $selected_transition_key} direction return_url}]&"
 		foreach loop_place_key $workflow(arcs,transition,$selected_transition_key,out) {
 		    lappend nolink "place,$loop_place_key"
 		}
@@ -159,14 +159,14 @@ ad_proc wf_decorate_workflow {
 	    if { ![empty_string_p $selected_place_key] } {
 		set direction in
 		set place_link {}
-		set transition_link "arc-delete?[export_vars -url { place_key=[ns_urlencode $selected_place_key] direction return_url}]&"
+		set transition_link "[export_vars -base "arc-delete" { {place_key $selected_place_key} direction return_url}]&"
 		foreach loop_transition_key $workflow(arcs,place,$selected_place_key,in) {
 		    lappend onlylink "transition,$loop_transition_key"
 		}
 	    } else {
 		set direction out
 		set transition_link {}
-		set place_link "arc-delete?[export_vars -url { transition_key=[ns_urlencode $selected_transition_key] direction return_url}]&"
+		set place_link "[export_vars -base "arc-delete" { {transition_key $selected_transition_key} direction return_url}]&"
 		foreach loop_place_key $workflow(arcs,transition,$selected_transition_key,out) {
 		    lappend onlylink "place,$loop_place_key"
 		}
@@ -202,12 +202,6 @@ ad_proc wf_decorate_workflow {
     foreach type { transition place } {
 	foreach key $workflow(${type}s) {
 	    if { [empty_string_p $onlylink] } {
-
-		# set workflow($type,$key,url) [ad_decode \
-		#	[set ${type}_link] \
-		#	"" "" \
-		#	"[set ${type}_link][export_vars -url { workflow_key ${type}_key=[ns_urlencode $key]}]"]
-
 		eval "set ${type}_key [ns_urlencode $key]"
 		set par [list]
 		lappend par workflow_key "${type}_key"
