@@ -388,16 +388,6 @@ ad_proc wf_graphviz_dot_exec {
 	return -code error "Graphviz is not installed."
     }
 
-#    091031 fraber: Doesn't work like this with Windows installer.
-#    if { ![file executable $graphviz_dot_path] } {
-#	return -code error "Can't execute graphviz binary at $graphviz_dot_path"
-#    }
-
-#    091103 fraber: Doesn't work like this with Windows installer.
-#    if { ![file isdirectory $tmp_path] } {
-#	return -code error "Parameter acs-workflow.tmp_path points to a non-existing directory: $tmp_path"
-#    }
-
     set output [string tolower $output]
     if { [regexp {[^a-z]} $output] } {
 	return -code error "Only a-z allowed in 'output'"
@@ -414,13 +404,12 @@ ad_proc wf_graphviz_dot_exec {
     close $fw
     
     if {[catch {
-	if { $to_file_p } {
-	    exec -keepnewline $graphviz_dot_path -T$output -Gcharset=latin1 -o $tmp_out $tmp_dot
-
-	    ns_log Notice "wf_graphviz_dot_exec: exec -keepnewline $graphviz_dot_path -T$output -o $tmp_out $tmp_dot"
+	if {$to_file_p} {
+	    im_exec -keepnewline $graphviz_dot_path -T$output -Gcharset=latin1 -o $tmp_out $tmp_dot
+	    ns_log Notice "wf_graphviz_dot_exec: im_exec -keepnewline $graphviz_dot_path -T$output -o $tmp_out $tmp_dot"
 	} else {
-	    set result [exec -keepnewline $graphviz_dot_path -Gcharset=latin1 -T$output $tmp_dot]
-	    ns_log Notice "wf_graphviz_dot_exec: exec -keepnewline $graphviz_dot_path -T$output $tmp_dot"
+	    set result [im_exec -keepnewline $graphviz_dot_path -Gcharset=latin1 -T$output $tmp_dot]
+	    ns_log Notice "wf_graphviz_dot_exec: im_exec -keepnewline $graphviz_dot_path -T$output $tmp_dot"
 	    ad_return_complaint 1 $result
 	}
     } err_msg]} {
