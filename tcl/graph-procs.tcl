@@ -405,12 +405,11 @@ ad_proc wf_graphviz_dot_exec {
     
     if {[catch {
 	if {$to_file_p} {
-	    im_exec -keepnewline $graphviz_dot_path -T$output -Gcharset=latin1 -o $tmp_out $tmp_dot
+	    set result [im_exec -keepnewline $graphviz_dot_path -T$output -Gcharset=latin1 -o $tmp_out $tmp_dot]
 	    ns_log Notice "wf_graphviz_dot_exec: im_exec -keepnewline $graphviz_dot_path -T$output -o $tmp_out $tmp_dot"
 	} else {
 	    set result [im_exec -keepnewline $graphviz_dot_path -Gcharset=latin1 -T$output $tmp_dot]
 	    ns_log Notice "wf_graphviz_dot_exec: im_exec -keepnewline $graphviz_dot_path -T$output $tmp_dot"
-	    ad_return_complaint 1 $result
 	}
     } err_msg]} {
 	
