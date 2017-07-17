@@ -1,36 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <message_catalog package_key="acs-workflow" locale="de_DE" charset="ISO-8859-1">
 
-  <msg key="1_active_case">1 activer Fall</msg>
-  <msg key="1_case_total">1 Fall total</msg>
   <msg key="_ie_the">, also die</msg>
-  <msg key="Action">Aktion</msg>
-  <msg key="Action_1">Aktion:</msg>
-  <msg key="Action_Type">Typ Aktion</msg>
-  <msg key="Actions">Aktionen</msg>
   <msg key="actions">Aktionen</msg>
-  <msg key="Activated_Date">Datum Aktivierung</msg>
   <msg key="Active_Tasks">Aktive Aufgaen</msg>
   <msg key="Add">Neu</msg>
-  <msg key="add_arc">Neue Kante</msg>
-  <msg key="Add_Assignee">Neue Zuweisung</msg>
-  <msg key="Add_attribute">Neues Attribut</msg>
-  <msg key="add_attribute">Neues Attribut</msg>
-  <msg key="Add_Context">Neuer Kontext</msg>
-  <msg key="add_group">Neue Gruppe</msg>
   <msg key="add_guard">Neuer Wächter</msg>
-  <msg key="add_loop">Neue Schleife</msg>
-  <msg key="Add_Panel">Neues Panel</msg>
-  <msg key="Add_panel">Neues Panel</msg>
-  <msg key="add_panel">Neues Panel</msg>
-  <msg key="add_person">Neue Person</msg>
-  <msg key="Add_Place">Neuer Platz</msg>
-  <msg key="Add_Role">Neue Rolle</msg>
-  <msg key="add_role">Neue Rolle</msg>
-  <msg key="Add_Task">Neue Aufgabe</msg>
-  <msg key="add_transition">Neue Transition</msg>
-  <msg key="Admin_Workflows">Admin Workflows</msg>
-  <msg key="Administer">Admin</msg>
   <msg key="All_Attributes">Alle Attribute</msg>
   <msg key="All_Tasks">Alle Aufgaben</msg>
   <msg key="and_an">und ein</msg>
@@ -41,7 +16,6 @@
   <msg key="assignment">Zuweisung</msg>
   <msg key="Assignments">Zuweisung</msg>
   <msg key="Attribute">Attribut</msg>
-  <msg key="Attribute_name">Name Attribut</msg>
   <msg key="attributename">attribute.name</msg>
   <msg key="Attributes">Attribute</msg>
   <msg key="attributes">Attribute</msg>
@@ -50,8 +24,6 @@
   <msg key="cancel">abbrechen</msg>
   <msg key="cancel_task">Aufgabe abbrechen</msg>
   <msg key="Canceled">Abgebrochen</msg>
-  <msg key="cant_add_arc">(kann keinen neue Kante hinzufügen)</msg>
-  <msg key="cant_delete_arc">(kann Kante nicht löschen)</msg>
   <msg key="cant_delete_place">(kann Platz nicht löschen)</msg>
   <msg key="Case">Fall</msg>
   <msg key="Case_started">Fall starten</msg>
@@ -67,7 +39,6 @@
   <msg key="Current_Assignees">Aktuelle Zuweisung</msg>
   <msg key="Current_Value">Aktueller Wert</msg>
   <msg key="Custom_argument">Zusatzargument</msg>
-  <msg key="Datatype">Datentyp</msg>
   <msg key="Dead_Tokens">inaktive Token</msg>
   <msg key="Deadline">Frist</msg>
   <msg key="Deadlines">Fristen</msg>
@@ -89,7 +60,6 @@
   <msg key="Edit">Ändern</msg>
   <msg key="edit">editieren</msg>
   <msg key="Edit_1">Bearbeiten</msg>
-  <msg key="Edit_Arc">Kante bearbeiten</msg>
   <msg key="edit_guard">Wächter bearbeiten</msg>
   <msg key="edit_name">Name bearbeiten</msg>
   <msg key="Edit_panel">Panel bearbeiten</msg>
@@ -148,7 +118,6 @@
   <msg key="lt_at_taskfinished_date_">am %task.finished_date_pretty%</msg>
   <msg key="lt_Attributes_for_workfl">Attribute für %workflow_name;noquote%</msg>
   <msg key="lt_Attributes_to_be_set_">Attribute, die durch %transition_name;noquote% gesetzt werden</msg>
-  <msg key="lt_Business_Process_Admi">Admin Business Prozesse</msg>
   <msg key="lt_Business_Processes_on">Business Prozesse auf diesem System</msg>
   <msg key="lt_Case_caseobject_namen">Fall: %case.object_name;noquote% (%case.state;noquote%)</msg>
   <msg key="lt_caseobject_namenoquot">%case.object_name;noquote% Fristen</msg>
@@ -207,7 +176,6 @@ Ob wir der Schleife zurück folgen zu &#39;%loop_to_task_name%&#39; oder vorwärts
   <msg key="lt_Place_place_namenoquo">Platz %place_name;noquote%</msg>
   <msg key="lt_Place_placeplace_name">Platz: %place.place_name% (</msg>
   <msg key="lt_Plaintext_description">Beschreibung</msg>
-  <msg key="lt_Please_type_a_name_fo">Bitte einen Namen für die neue Rolle eingeben</msg>
   <msg key="lt_Producing_Transitions">Erzeugende Transition</msg>
   <msg key="lt_Programmatic_Assignme">Programmatische Zuweisung</msg>
   <msg key="lt_Select_the_task_that_">Wählen Sie eine Aufgabe, der Sie die Rolle %role_name% zuweisen wollen:</msg>
@@ -287,7 +255,6 @@ Ob wir der Schleife zurück folgen zu &#39;%loop_to_task_name%&#39; oder vorwärts
   <msg key="Notification">Benachrichtigung</msg>
   <msg key="now">jetzt.</msg>
   <msg key="Object">Objekt</msg>
-  <msg key="Object_Type">Objekttyp</msg>
   <msg key="on_the_server">auf dem Server</msg>
   <msg key="On_what">auf was?</msg>
   <msg key="one_task_defined">eine Aufgabe definiert</msg>
@@ -359,8 +326,6 @@ Ob wir der Schleife zurück folgen zu &#39;%loop_to_task_name%&#39; oder vorwärts
   <msg key="Transition">Transition</msg>
   <msg key="Transition_Panels">Panel für Transition</msg>
   <msg key="Transitions">Transitionen</msg>
-  <msg key="Trigger">Trigger</msg>
-  <msg key="Trigger_type">Triggertyp</msg>
   <msg key="Unassigned">Nicht zugewiesen</msg>
   <msg key="Unassigned_task">Aufgabe ohne Zuweisung</msg>
   <msg key="Unassigned_Tasks">Aufgaben ohne Zuweisung</msg>
