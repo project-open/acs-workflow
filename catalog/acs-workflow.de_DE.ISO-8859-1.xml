@@ -285,6 +285,7 @@ Ob wir der Schleife zurück folgen zu &#39;%loop_to_task_name%&#39; oder vorwärts
   <msg key="not_started">nicht gestartet</msg>
   <msg key="Note_">Hinweis!</msg>
   <msg key="Notification">Benachrichtigung</msg>
+  <msg key="Notifications">Benachrichtigungen</msg>
   <msg key="now">jetzt.</msg>
   <msg key="Object">Objekt</msg>
   <msg key="Object_Type">Objekttyp</msg>
