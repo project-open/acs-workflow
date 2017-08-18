@@ -340,7 +340,7 @@ Ob wir der Schleife zurück folgen zu &#39;%loop_to_task_name%&#39; oder vorwärts
   <msg key="Static_Assignment">Statische Zuweisung</msg>
   <msg key="Static_Assignments">Statische Zuweisungen</msg>
   <msg key="Task">Aufgabe</msg>
-  <msg key="Task_done">Aufgabe fertig</msg>
+  <msg key="Task_done">Aufgabe beenden</msg>
   <msg key="task_in_the_loop">Aufgabe in der Schleife</msg>
   <msg key="Task_Name">Aufgabenname</msg>
   <msg key="Task_name">Aufgabenname</msg>
