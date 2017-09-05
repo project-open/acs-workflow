@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <message_catalog package_key="acs-workflow" locale="pl_PL" charset="utf-8">
 
+  <msg key="1_active_case">1 aktywny przypadek</msg>
   <msg key="Action">Czynność</msg>
   <msg key="Actions">Czynności</msg>
   <msg key="actions">czynności</msg>
@@ -12,7 +13,7 @@
   <msg key="add_panel">dodaj panel</msg>
   <msg key="add_role">dodaj rolę</msg>
   <msg key="add_transition">dodaj przejście</msg>
-  <msg key="Admin_Workflows">Zarządzaj Przepływami Pracy</msg>
+  <msg key="Admin_Workflows">Zarządzaj przepływami pracy</msg>
   <msg key="and_an">i</msg>
   <msg key="As_part_of">Część z</msg>
   <msg key="assignment">reguły</msg>
@@ -22,8 +23,9 @@
   <msg key="attributes">atrybuty</msg>
   <msg key="By_Role">Rola</msg>
   <msg key="cancel">anuluj</msg>
-  <msg key="Cases">Przypadek</msg>
+  <msg key="Cases">Przypadki</msg>
   <msg key="Datatype">Typ danych</msg>
+  <msg key="Deadline">Termin</msg>
   <msg key="delete">usuń</msg>
   <msg key="delete_arc">usuń krawędź</msg>
   <msg key="delete_guard">usuń strażnika</msg>
@@ -48,7 +50,8 @@
   <msg key="loops">pętle</msg>
   <msg key="lt__oryou_can_start_with">,lub można zacząć od razu Advanced Process Builder.</msg>
   <msg key="lt_A_guard_is_some_condi">Strażnik jest warunkiem, który musi być spełniony przez token aby przejść przez ten łuk.</msg>
-  <msg key="lt_Business_Processes_on">Procesy Biznesowe W Tym Systemie</msg>
+  <msg key="lt_Business_Process_Admi">Administracja procesami biznesowymi</msg>
+  <msg key="lt_Business_Processes_on">Procesy biznesowe W tym systemie</msg>
   <msg key="lt_delete_process_entire">usuń proces całkowicie</msg>
   <msg key="lt_Go_to_tasksloop_to_ta">Idź do %tasks.loop_to_task_name% jeśli</msg>
   <msg key="lt_graphic_process_edito">graficzny edytor procesu</msg>
@@ -65,17 +68,21 @@
   <msg key="lt_to_be_executed_in_seq">które będą wykonane sekwencyjnie, możesz dodać</msg>
   <msg key="lt_to_yourbusiness_proce">do Twojego
 procesu biznesowego.</msg>
+  <msg key="lt_workflowsnum_cases_ac">%workflows.num_cases% aktywnych przypadków</msg>
+  <msg key="lt_workflowsnum_unassign">%workflows.num_unassigned_tasks% nieprzydzielony task</msg>
   <msg key="make_a_copy">zrób kopię</msg>
   <msg key="Name">Nazwa</msg>
   <msg key="name">nazwy</msg>
-  <msg key="New">Proste Procesy</msg>
-  <msg key="New_1">Zaawansowane Procesy</msg>
+  <msg key="New">Proste procesy</msg>
+  <msg key="New_1">Zaawansowane procesy</msg>
   <msg key="No">Nr</msg>
   <msg key="No_">Nr</msg>
   <msg key="No_1">Nie</msg>
-  <msg key="No_active_cases">Brak Aktywnych Przypadków</msg>
+  <msg key="No_active_cases">Brak aktywnych przypadków</msg>
   <msg key="No_old_cases">Brak starych przypadków</msg>
+  <msg key="No_tasks">Brak zadań</msg>
   <msg key="not">nie</msg>
+  <msg key="Notifications">Powiadomienia</msg>
   <msg key="Object">Objekt</msg>
   <msg key="On_what">Na co?</msg>
   <msg key="optional_description">opcjonalnie opisu</msg>
@@ -94,6 +101,7 @@ procesu biznesowego.</msg>
   <msg key="Static_Assignments">Przypisania Statyczne</msg>
   <msg key="Task">Zadanie</msg>
   <msg key="tasks">zadań</msg>
+  <msg key="Time_Estimate">Szacowany czas</msg>
   <msg key="To_Do">Do zrobienia</msg>
   <msg key="Transition">Przejście</msg>
   <msg key="Transition_Panels">Panele Przejścia</msg>
@@ -101,7 +109,7 @@ procesu biznesowego.</msg>
   <msg key="Trigger">Wyzwalacz</msg>
   <msg key="Unassigned">Nieprzypisane</msg>
   <msg key="Used">Używany</msg>
-  <msg key="Workflow_Cases">Przypadki Przepływu Pracy</msg>
-  <msg key="Workflows">Przepływy Prac</msg>
+  <msg key="Workflow_Cases">Przypadki przepływu pracy</msg>
+  <msg key="Workflows">Przepływy pracy</msg>
   <msg key="Yes">Tak</msg>
 </message_catalog>
