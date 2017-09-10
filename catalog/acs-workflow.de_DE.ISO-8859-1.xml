@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <message_catalog package_key="acs-workflow" locale="de_DE" charset="ISO-8859-1">
 
-  <msg key="1_active_case">1 activer Fall</msg>
+  <msg key="1_active_case">1 aktiver Fall</msg>
   <msg key="1_case_total">1 Fall total</msg>
   <msg key="_ie_the">, also die</msg>
   <msg key="Action">Aktion</msg>
@@ -29,7 +29,7 @@
   <msg key="add_role">Neue Rolle</msg>
   <msg key="Add_Task">Neue Aufgabe</msg>
   <msg key="add_transition">Neue Transition</msg>
-  <msg key="Admin_Workflows">Admin Workflows</msg>
+  <msg key="Admin_Workflows">Admin - Workflows</msg>
   <msg key="Administer">Admin</msg>
   <msg key="All_Attributes">Alle Attribute</msg>
   <msg key="All_Tasks">Alle Aufgaben</msg>
@@ -148,8 +148,8 @@
   <msg key="lt_at_taskfinished_date_">am %task.finished_date_pretty%</msg>
   <msg key="lt_Attributes_for_workfl">Attribute für %workflow_name;noquote%</msg>
   <msg key="lt_Attributes_to_be_set_">Attribute, die durch %transition_name;noquote% gesetzt werden</msg>
-  <msg key="lt_Business_Process_Admi">Admin Business Prozesse</msg>
-  <msg key="lt_Business_Processes_on">Business Prozesse auf diesem System</msg>
+  <msg key="lt_Business_Process_Admi">Admin - Business-Prozesse</msg>
+  <msg key="lt_Business_Processes_on">Business-Prozesse auf diesem System</msg>
   <msg key="lt_Case_caseobject_namen">Fall: %case.object_name;noquote% (%case.state;noquote%)</msg>
   <msg key="lt_caseobject_namenoquot">%case.object_name;noquote% Fristen</msg>
   <msg key="lt_caseobject_namenoquot_1">%case.object_name;noquote% Fall</msg>
@@ -290,7 +290,7 @@ Ob wir der Schleife zurück folgen zu &#39;%loop_to_task_name%&#39; oder vorwärts
   <msg key="Object">Objekt</msg>
   <msg key="Object_Type">Objekttyp</msg>
   <msg key="on_the_server">auf dem Server</msg>
-  <msg key="On_what">auf was?</msg>
+  <msg key="On_what">Auf was?</msg>
   <msg key="one_task_defined">eine Aufgabe definiert</msg>
   <msg key="optional">(optional)</msg>
   <msg key="Optional_argument">Optionales Argument</msg>
