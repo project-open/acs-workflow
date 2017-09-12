@@ -306,7 +306,7 @@ Ob wir der Schleife zurück folgen zu &#39;%loop_to_task_name%&#39; oder vorwärts
   <msg key="Place">Platz</msg>
   <msg key="Place_name">Name Platz</msg>
   <msg key="PLSQL_proc">PL/SQL Prozedur</msg>
-  <msg key="Pretty_name">Hübscher Name</msg>
+  <msg key="Pretty_name">Voller Name</msg>
   <msg key="prior_task">vorige Aufgabe</msg>
   <msg key="Process">Prozess</msg>
   <msg key="process">Prozess</msg>
