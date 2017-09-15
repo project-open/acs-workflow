@@ -68,11 +68,11 @@
   <msg key="Current_Value">Aktueller Wert</msg>
   <msg key="Custom_argument">Zusatzargument</msg>
   <msg key="Datatype">Datentyp</msg>
-  <msg key="Dead_Tokens">inaktive Token</msg>
+  <msg key="Dead_Tokens">Inaktive Token</msg>
   <msg key="Deadline">Frist</msg>
   <msg key="Deadlines">Fristen</msg>
   <msg key="debug_case">Fall debuggen</msg>
-  <msg key="Default_value">Vorlage Wert</msg>
+  <msg key="Default_value">Standard-Wert</msg>
   <msg key="delete">löschen</msg>
   <msg key="delete_all_cases">alle Fälle löschen</msg>
   <msg key="delete_arc">Kante löschen</msg>
@@ -84,10 +84,10 @@
   <msg key="Display_">Anzeigen: [</msg>
   <msg key="done_adding_loops">Schleife erfolgreich hinzugefügt</msg>
   <msg key="Done_By">Fertig bei</msg>
-  <msg key="Done_Date">Fertig Datum</msg>
+  <msg key="Done_Date">Fertigstellungsdatum</msg>
   <msg key="Download">Runterladen</msg>
-  <msg key="Edit">Ändern</msg>
-  <msg key="edit">editieren</msg>
+  <msg key="Edit">Bearbeiten</msg>
+  <msg key="edit">Bearbeiten</msg>
   <msg key="Edit_1">Bearbeiten</msg>
   <msg key="Edit_Arc">Kante bearbeiten</msg>
   <msg key="edit_guard">Wächter bearbeiten</msg>
@@ -166,8 +166,8 @@
   <msg key="lt_go_back_and_define_mo">zurückgehen und weitere Aufgaben definieren</msg>
   <msg key="lt_go_back_and_define_so">zurückgehen und Aufgaben definieren</msg>
   <msg key="lt_Go_to_tasksloop_to_ta">Zu %tasks.loop_to_task_name% gehen wenn</msg>
-  <msg key="lt_go_to_the_business_pr">zur Business Prozess Administrationsseite gehen</msg>
-  <msg key="lt_graphic_process_edito">Graphischer Prozess Editor</msg>
+  <msg key="lt_go_to_the_business_pr">zur Administrationsseite der Business-Prozesse gehen</msg>
+  <msg key="lt_graphic_process_edito">Graphischer Prozesseditor</msg>
   <msg key="lt_held_by_task_live_tok">(gehalten von Aufgabe %live_tokens.locked_task_id%)</msg>
   <msg key="lt_Here_are_some_logic_a">Hier sind Hilfestellungen für die Freigabe</msg>
   <msg key="lt_Heres_some_informatio">Hier sind Informationen über die Ausgaben</msg>
@@ -201,7 +201,7 @@ Ob wir der Schleife zurück folgen zu &#39;%loop_to_task_name%&#39; oder vorwärts
   <msg key="lt_on_taskcanceled_date_">an %task.canceled_date_pretty%</msg>
   <msg key="lt_Only_display_when_tas">Nur anzeigen, wenn die Aufgabe gestartet wurde?</msg>
   <msg key="lt_or_use_Attribute_name">oder Attributnamen benutzen</msg>
-  <msg key="lt_Override_default_Acti">Standard Aktionspanel überschreiben?</msg>
+  <msg key="lt_Override_default_Acti">Standard-Aktionspanel überschreiben?</msg>
   <msg key="lt_overridepanelsoverrid">überschreiben  %panels.overrides_action_p%; whenstarted=%panels.only_display_when_started_p%</msg>
   <msg key="lt_Panels_for_transition">Panele für %transition_name;noquote%</msg>
   <msg key="lt_Place_place_namenoquo">Platz %place_name;noquote%</msg>
@@ -305,14 +305,14 @@ Ob wir der Schleife zurück folgen zu &#39;%loop_to_task_name%&#39; oder vorwärts
   <msg key="Past_Tasks">Vergangene Aufgaben</msg>
   <msg key="Place">Platz</msg>
   <msg key="Place_name">Name Platz</msg>
-  <msg key="PLSQL_proc">PL/SQL Prozedur</msg>
+  <msg key="PLSQL_proc">PL/SQL-Prozedur</msg>
   <msg key="Pretty_name">Voller Name</msg>
   <msg key="prior_task">vorige Aufgabe</msg>
   <msg key="Process">Prozess</msg>
   <msg key="process">Prozess</msg>
   <msg key="Process_Name">Prozessname</msg>
   <msg key="Process_Name_1">Prozessname:</msg>
-  <msg key="Process_State">Prozess Zustand</msg>
+  <msg key="Process_State">Prozess-Zustand</msg>
   <msg key="Produced">Produziert</msg>
   <msg key="Question">(Frage)</msg>
   <msg key="Question_to_ask">zu fragende Frage</msg>
@@ -348,8 +348,8 @@ Ob wir der Schleife zurück folgen zu &#39;%loop_to_task_name%&#39; oder vorwärts
   <msg key="Task_not_found_message">Dieser Fehler kann auftreten, wenn der System Administrator einen Workflow gelöscht hat.&lt;br&gt;Diese Situation sollte während des normalen Betriebs nicht auftreten.&lt;p&gt;Bitte kontaktieren Sie Ihren System Administrator.</msg>
   <msg key="tasks">Aufgaben</msg>
   <msg key="Tasks_To_Be_Done">zu erledigende Aufgaben</msg>
-  <msg key="template-name">Name Vorlagen</msg>
-  <msg key="Template_URL">URL Vorlage</msg>
+  <msg key="template-name">Vorlage-Name</msg>
+  <msg key="Template_URL">Vorlage-URL</msg>
   <msg key="the_SQL_script">das SQL Script</msg>
   <msg key="Time">Zeit</msg>
   <msg key="Time_Estimate">Geschätzte Zeit</msg>
@@ -373,7 +373,7 @@ Ob wir der Schleife zurück folgen zu &#39;%loop_to_task_name%&#39; oder vorwärts
   <msg key="will_be_asked_to">wird gefragt werden zu</msg>
   <msg key="Work_List">Arbeitsliste</msg>
   <msg key="Workflow">Workflow</msg>
-  <msg key="Workflow_Cases">Workflow Fall</msg>
+  <msg key="Workflow_Cases">Workflow-Fall</msg>
   <msg key="www">/www/</msg>
   <msg key="Yes">Ja</msg>
   <msg key="Yes_1">/&gt;Ja</msg>
