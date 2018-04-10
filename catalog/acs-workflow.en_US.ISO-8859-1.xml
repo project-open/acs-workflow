@@ -29,7 +29,7 @@
   <msg key="add_role">add role</msg>
   <msg key="Add_Task">Add Task</msg>
   <msg key="add_transition">add transition</msg>
-  <msg key="Admin_Workflows">Admin workflows</msg>
+  <msg key="Admin_Workflows">Admin Workflows</msg>
   <msg key="Administer">Administer</msg>
   <msg key="All_Attributes">All Attributes</msg>
   <msg key="All_Tasks">All Tasks</msg>
@@ -311,7 +311,6 @@ working on.</msg>
   <msg key="not_started">not started</msg>
   <msg key="Note_">Note!</msg>
   <msg key="Notification">Notification</msg>
-  <msg key="Notifications">Notifications</msg>
   <msg key="now">now.</msg>
   <msg key="Object">Object</msg>
   <msg key="Object_Type">Object Type</msg>
@@ -399,7 +398,8 @@ working on.</msg>
   <msg key="will_be_asked_to">will be asked to</msg>
   <msg key="Work_List">Work List</msg>
   <msg key="Workflow">Workflow</msg>
-  <msg key="Workflow_Cases">Workflow cases</msg>
+  <msg key="Workflow_Cases">Workflow Cases</msg>
+  <msg key="Workflows">Workflows</msg>
   <msg key="www">/www/</msg>
   <msg key="Yes">Yes</msg>
   <msg key="Yes_1">/&gt;Yes</msg>
