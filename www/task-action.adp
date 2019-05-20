@@ -29,6 +29,10 @@ if {[llength $approval_attributes] == 0} { set approval_task_p 0 }
 # is assigned to the task.
 if {!$task(this_user_is_assigned_p)} { set approval_task_p 0 }
 
+# ad_return_complaint 1 "<pre>[join [array get task] "\n"]</pre>"
+
+
+
 # Show reassign links (Assign yourself / reassign)? 
 set reassign_p [im_permission $user_id wf_reassign_tasks]
 
@@ -115,7 +119,7 @@ set reassign_p [im_permission $user_id wf_reassign_tasks]
     
              <tr>
                  <th align="right">#acs-workflow.Comment#<br></th>
-                 <td><textarea name="msg" cols=20 rows=4></textarea></td>
+                 <td><textarea name="msg" cols=30 rows=5></textarea></td>
              </tr>
     
              <tr>

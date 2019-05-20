@@ -59,6 +59,14 @@ wf_sweep_message_transition_tcl
 
 
 # ---------------------------------------------------------
+# Does the current user have a vacation replacement?
+# In this case assign the user so that he or she can
+# execute the same actions
+
+im_absences_assign_vacation_replacement -task_id $task_id
+
+
+# ---------------------------------------------------------
 # Get everything about the task
 
 
@@ -70,8 +78,10 @@ if {[catch {
 	[lang::message::lookup "" acs-workflow.Task_not_found_message "
 		This error can occur if a system administrator has deleted a workflow.<br>
 		This situation should not occur during normal operations.<p>
-		Please contact your System Administrator
+		Please contact your System Administrator.
 	"]
+	<br>&nbsp;<br>Here is the error message:
+	<pre>$err_msg</pre>
     "
     return
 }

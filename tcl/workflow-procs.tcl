@@ -109,10 +109,10 @@ ad_proc -public wf_task_list {
     }
 
     set sql "
-select [join $select ",\n       "]
-from   [join $from ",\n       "]
-where  [join $where "\n   and "]"
-
+    	select [join $select ",\n       "]
+	from   [join $from ",\n       "]
+	where  [join $where "\n   and "]
+    "
     db_foreach user_tasks $sql -column_array row {
         lappend result [array get row]
     } if_no_rows {
@@ -150,10 +150,9 @@ ad_proc -public wf_task_info {
     task_id
 } {
     Get detailed information about one task.
-    
+
     @param date_format Use this to customize the date-format
     used. Must be a valid Oracle date format specification.
-
     @return an <code>[array get]</code> representation with the following keys: 
     <code>task_id, case_id, object_id, object_name, object_type_pretty, workflow_key, task_name,
     state, state_pretty, enabled_date, enabled_date_pretty, started_date, started_date_pretty, 
@@ -162,30 +161,19 @@ ad_proc -public wf_task_info {
     holding_user_email, hold_timeout, hold_timeout_pretty, deadline, deadline_pretty, days_till_deadline
     estimated_minutes, instructions, sysdate, journal, attributes_to_set, assigned_users, 
     this_user_is_assigned_p, roles_to_assign</code>.
-
     <p>
-
     The values for the keys <code>journal, attributes_to_set and assigned_users</code>
     are themselves Tcl lists of <code>[array
     get]</code> repesentations. For the journal entry, see <a
     href="/api-doc/proc-view?proc=wf_journal"><code>wf_journal</code></a>.
-    
     <p>
-
     The key <code>attribute_to_set</code> contains these keys: <code>attribute_id, attribute_name, 
     pretty_name, datatype, value, wf_datatype</code>.
-
     <p>
-
     The key <code>assigned_users</code> contains these keys: <code>user_id, name, email</code>.
-    
     <p>
-
     The key <code>transitions_to_assign</code> contains these keys: <code>transition_key, transition_name</code>
-
     <p>
-
-    
     Sysdate is provided, so you can calculate the number of days
     between now and any of the other dates provided.
 
