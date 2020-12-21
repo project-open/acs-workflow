@@ -3,6 +3,25 @@
 <property name="context">@context;noquote@</property>
 <property name="left_navbar">@left_navbar_html;noquote@</property>
 
+<script type='text/javascript' <if @::__csp_nonce@ not nil>nonce="@::__csp_nonce;literal@"</if>>
+window.addEventListener('load', function() {
+    var ref = document.getElementById('wf_delete_all_cases');
+    if (ref) ref.addEventListener('click', function() {
+	var msg = 'Are you sure that you want to delete all cases of this process?';
+	if (confirm(msg)) location.href='workflow-cases-delete?workflow_key=@workflow.workflow_key@'
+    });
+
+    var ref = document.getElementById('wf_delete_process_entire');
+    if (ref) ref.addEventListener('click', function() {
+	 var msg = "Are you sure you want to delete this business process definition?\n";
+	 msg = msg + "Doing so will delete all cases of this workflow.";
+	 if (confirm(msg)) location.href='workflow-delete?workflow_key=@workflow.workflow_key@'
+     });
+});
+</script>
+
+
+
 <!-- Tab bar -->
 <include src="workflow-tabs" tab="@tab;noquote@" workflow_key="@workflow_key;noquote@">
 
@@ -130,10 +149,9 @@
 		<tr bgcolor="#ffffff">
 		  <td>
 		    <if @workflow.num_cases@ gt 0>
-		      (<a href="javascript:if(confirm('Are you sure that you want to delete all cases of this process?'))location.href='workflow-cases-delete?workflow_key=@workflow.workflow_key@'">#acs-workflow.delete_all_cases#</a>) &nbsp;
+		      (<a id="wf_delete_all_cases" href="#">#acs-workflow.delete_all_cases#</a>) &nbsp;
 		    </if>
-		    (<a href="javascript:if(confirm('Are you sure you want to delete this business process definition?
-	Doing so will delete all cases of this workflow.'))location.href='workflow-delete?workflow_key=@workflow.workflow_key@'">#acs-workflow.lt_delete_process_entire#</a>)
+		    (<a id="wf_delete_process_entire" href="#">#acs-workflow.lt_delete_process_entire#</a>)
 		  </td>
 		</tr>
 	      </table>

@@ -51,7 +51,7 @@ db_multirow roles roles {
     }
     # For some reason we seem to need to ns_urlencode the whole thing again, when using it in javascript
     if { $modifiable_p } {
-	set delete_url [ad_quotehtml "javascript:if(confirm('Are you sure you want to delete this role?'))location.href='role-delete?[export_vars -url {workflow_key role_key return_url}]'"]
+	set delete_url "role-delete?[export_vars -url {workflow_key role_key return_url}]"
     }
 
 #    set delete_url "role-delete?[export_vars -url {workflow_key role_key return_url}]"
