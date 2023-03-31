@@ -1922,7 +1922,7 @@ begin
 	else if v_state = 'started' then
 		v_locked_task_id := fire_transition_internal__task_id;
 	else 
-		raise EXCEPTION '-20000: Can nott fire the transition if it is not in state enabled or started';
+		raise EXCEPTION '-20000: Can not fire the transition if it is not in state enabled or started';
 	end if; end if;
 
 	/* Mark the task finished */
