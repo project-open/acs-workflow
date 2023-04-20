@@ -1399,54 +1399,54 @@ begin
 		and    place_key = 'end';
 	  
 		if v_num_rows = 0 then 
-		return 'f';
+			return 'f';
 		else
-		/* There is a token in the end place.
-		 * Count the total integer of tokens to make sure the wf is well-constructed.
-		 */
-	  
-		select case when count(*) = 0 then 0
-		            when count(*) = 1 then 1 
-		                              else 2 
-		        end into v_num_rows
-		from   wf_tokens
-		where  case_id = finished_p__case_id
-		and    state in ('free', 'locked');
-	  
-		if v_num_rows > 1 then 
-		    raise EXCEPTION '-20000: The workflow net is misconstructed: Some parallel executions have not finished.';
-		end if;
-	  
-		/* Consume that token */
-		select token_id into v_token_id
-		from   wf_tokens
-		where  case_id = finished_p__case_id
-		and    state in ('free', 'locked');
-
-		PERFORM workflow_case__consume_token (
-		    finished_p__case_id,
-		    'end',
-		    finished_p__journal_id,
-		    null
-		);
-
-		update wf_cases 
-		set    state = 'finished' 
-		where  case_id = finished_p__case_id;
-
-		/* Add an extra entry to the journal */
-		v_journal_id := journal_entry__new (
-		    null,
-		    finished_p__case_id,
-		    'case finish',
-		    'Case finished',
-		    now(),
-		    null,
-		    null,
-		    null
-		);
-
-		return 't';
+			/* There is a token in the end place.
+			 * Count the total integer of tokens to make sure the wf is well-constructed.
+			 */
+		  
+			select case when count(*) = 0 then 0
+			            when count(*) = 1 then 1 
+			                              else 2 
+			        end into v_num_rows
+			from   wf_tokens
+			where  case_id = finished_p__case_id
+			and    state in ('free', 'locked');
+		  
+			if v_num_rows > 1 then 
+			    raise EXCEPTION '-20000: The workflow net is misconstructed: Some parallel executions have not finished.';
+			end if;
+		  
+			/* Consume that token */
+			select token_id into v_token_id
+			from   wf_tokens
+			where  case_id = finished_p__case_id
+			and    state in ('free', 'locked');
+	
+			PERFORM workflow_case__consume_token (
+			    finished_p__case_id,
+			    'end',
+			    finished_p__journal_id,
+			    null
+			);
+	
+			update wf_cases 
+			set    state = 'finished' 
+			where  case_id = finished_p__case_id;
+	
+			/* Add an extra entry to the journal */
+			v_journal_id := journal_entry__new (
+			    null,
+			    finished_p__case_id,
+			    'case finish',
+			    'Case finished',
+			    now(),
+			    null,
+			    null,
+			    null
+			);
+	
+			return 't';
 		end if;
 	end if;
 	   
