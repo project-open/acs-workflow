@@ -54,9 +54,17 @@ db_multirow journal journal_select "
       and  a.attribute_id (+) = v.attribute_id
     order  by o.creation_date $sql_order, j.journal_id $sql_order
 " {
-
     if {"" == $msg} { set msg $action_pretty }
 
+    if {"boolean" eq $attribute_datatype} {
+	switch $attribute_value {
+	    "t" { set attribute_value [lang::message::lookup "" acs-workflow.True "True"] }
+	    "f" { set attribute_value [lang::message::lookup "" acs-workflow.False "False"] }
+	    default {
+		# Should never get here with a boolean datatype...
+	    }
+	}
+    }
 }
 
 # lars, 1/23/01:
