@@ -1,3 +1,5 @@
+# /packages/acs-workflow/tcl/workflow-procs.tcl
+
 ad_library {
     Tcl-API for the workflow engine.
 
@@ -783,7 +785,6 @@ ad_proc -public wf_case_set_manual_assignments {
     }
 }	
 
-
 ad_proc -public wf_case_add_task_assignment {
     -task_id:required
     -party_id:required
@@ -799,6 +800,11 @@ ad_proc -public wf_case_add_task_assignment {
             );
         end;
     }
+
+    set case_id [db_string caseid "select case_id from wf_tasks where task_id = :task_id" -default ""]
+    set transition_key [db_string transitionkey "select transition_key from wf_tasks where task_id = :task_id" -default "undefined"]
+    set msg "Manual assignment of task `$transition_key` to [acs_object_name $party_id]"
+    wf_new_journal -case_id $case_id -action "assigned task #$task_id to #$party_id" -action_pretty $msg -message ""
 }
 
 ad_proc -public wf_case_remove_task_assignment {
@@ -816,6 +822,11 @@ ad_proc -public wf_case_remove_task_assignment {
             );
         end;
     }
+
+    set case_id [db_string caseid "select case_id from wf_tasks where task_id = :task_id" -default ""]
+    set transition_key [db_string transitionkey "select transition_key from wf_tasks where task_id = :task_id" -default "undefined"]
+    set msg "Removed manual assignment of task `$transition_key` to [acs_object_name $party_id]"
+    wf_new_journal -case_id $case_id -action "removed assignment of task #$task_id to #$party_id" -action_pretty $msg -message ""
 }
 
 ad_proc -public wf_case_clear_task_assignments {
