@@ -193,3 +193,7 @@ set reassign_p [im_permission $user_id wf_reassign_tasks]
     </else>
 </if>
 
+<if @task_comments_cnt@ gt 0>
+<h2><%=[lang::message::lookup "" acs-workflow.Previous_Comments "Previous Comments"] %></h2>
+@task_comments_html;noquote@
+</if>
