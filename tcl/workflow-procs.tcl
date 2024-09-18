@@ -271,6 +271,11 @@ ad_proc -public wf_task_info {
           from wf_user_tasks ut, parties p
          where ut.task_id = :task_id
            and p.party_id = ut.user_id
+	   and 'approved' = (     
+			     select min(mr.member_state)     
+			     from acs_rels r, membership_rels mr    
+			     where r.object_id_two = p.party_id and r.object_id_one = -2 and r.rel_id = mr.rel_id        
+			    )
     }
 
     set user_id [ad_conn user_id]
