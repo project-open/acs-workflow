@@ -171,6 +171,13 @@ if { [string compare $case_state "active"] == 0 && ($wf_suspend_case_p || $wf_ca
 
 wf_sweep_message_transition_tcl
 
+if {[llength [info commands im_audit]] > 0} {
+    set task_object_id [db_string task_object "select object_id from wf_cases where case_id in (select case_id from wf_tasks where task_id = :task_id)" -default ""]
+    ns_log Notice "acs-workflow/task.tcl: task_object_id=$task_object_id, action=$the_action"
+    im_audit -object_id $task_object_id -action "after_update" -comment "After WF sweep message transtion"
+}
+
+
 set export_vars [export_vars -form {task_id return_url}]
 
 ad_return_template
